@@ -12,10 +12,10 @@ import sea.Position;
 public class Ship {
 	
 	private static boolean IsRunning = false;
-	
+
 	private String shipName;
 	private int shipCost;
-	
+	 
 	private boolean isBusy;
 	private boolean isSunken;
 	
@@ -23,6 +23,7 @@ public class Ship {
 	private Cargo cargo;
 	private boolean hasCargo; 
 	private String company;
+	private String destination;
 	
 	private int seaTradePort;//Port of the SeaTrade Server
 	private int companyPort;//Port of the Company Server
@@ -183,7 +184,16 @@ public class Ship {
 		return company;
 	}
 
-	private void setCompany(String company) {
+	public void setCompany(String company) {
 		this.company = company;
 	}
+
+	public String getDestination() {
+		return destination;
+	}
+
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
+	
 }

@@ -7,12 +7,15 @@ import java.util.List;
 
 import Shared.IResponseHandler;
 import Shared.ListenerThread;
+import Shared.Parser;
 import Shared.Response;
 
 public class CompanyListener extends ListenerThread implements IResponseHandler {
 	
 	private List<String> expectedResponses;
+	//private List<String> expectedRequests;
 	private Ship ship;
+	private Parser parser;
 	
 	public CompanyListener(int port, String socketName, Ship ship) {
 		super(port, socketName);
@@ -24,7 +27,9 @@ public class CompanyListener extends ListenerThread implements IResponseHandler 
 			e.printStackTrace();
 		}
 		
-		expectedResponses = Arrays.asList("recruited:", "updated", "cleared:");
+		//expectedRequests = Arrays.asList("instruct:");
+		expectedResponses = Arrays.asList("recruited:", "updated:", "cleared:","instruct:");
+		parser = new Parser();
 	}
 
 	@Override
@@ -100,8 +105,9 @@ public class CompanyListener extends ListenerThread implements IResponseHandler 
 		
 	}
 
-	private void recruited(String content) {
-		// TODO Auto-generated method stub
-		
+	private void recruited(String content) throws Exception {
+		String[][] data = parser.parseComplexContent(content,2);
+		ship.setCompany(data[1][0]);
+		ship.setDestination(data[2][0]);
 	}
 }
