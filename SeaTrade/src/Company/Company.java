@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import Shared.Parser;
 import Shared.Response;
 
 public class Company implements Runnable {
@@ -23,6 +24,7 @@ public class Company implements Runnable {
 	private int clientPort;//Port of the SeaTrade Server
 	
 	public PrintWriter out;
+	public Parser parser;
 	
 	private List<ShipSession> shipsSessions;
 	private SeaTradeListener seaTradeListener;
@@ -35,6 +37,7 @@ public class Company implements Runnable {
 		this.serverPort = serverPort;
 		this.clientPort = clientPort;
 		availableRequests = Arrays.asList("register:", "harbours", "cargos", "instruct:", "exit");
+		parser = new Parser();
 		
 		shipsSessions = Collections.synchronizedList(new ArrayList<ShipSession>());
 		
@@ -73,13 +76,19 @@ public class Company implements Runnable {
 		while(IsRunning) {
 			System.out.println("Warten auf Eingabe");
 			String input = in.nextLine();
-			cApp.processInput(input);
+			
+			try{
+				cApp.processInput(input);
+			}
+			catch (Exception e) {
+				System.out.println("Invalid input");
+			}
 					
 		}
 		in.close();
 	}
 
-	public synchronized void processInput(String input) {
+	public synchronized void processInput(String input) throws Exception {
 		String currentIdentifier ="";
 		for (String identifier : availableRequests) {
 			if(input.startsWith(identifier)) {
@@ -102,12 +111,9 @@ public class Company implements Runnable {
 			break;
 			
 		case "instruct:":
-			String[] content = input.split(":");
-			if(content != null && content.length == 3)
-				instruct(content[1], content[2]);
-			else {
-				//Error Wrong Input
-			}
+			//instruct:habour:ship 
+			String[] content = parser.parseSimpleContent(input, 3);
+			instruct(content[1], content[2]);
 			break;
 			
 		case "exit:":
