@@ -1,0 +1,72 @@
+Company:
+SeaTradeListener:
+while(running)
+{
+	var nextMessage= in.ReadLine();
+	messageQueue.Push(newxtMessage);
+}
+MessageParser:
+while(running)
+{
+	var message = messageQueue.PopOrWait();
+	var messageType = DeductMessageType(message);
+	_listeners[messageType].ForEach(x => x.ListenTo(messageType, message));
+}
+MessageParser.Register(IMessageListener listener, MesageType messageType)
+{
+	_listeners[messageType].Add(listener);
+} 
+private Dictionary<MessageType, List<IMessageListener>> _listener;
+interface IMessageListener
+{
+	void ListenTo(string message);
+}
+CompanyConsole :
+ctor()
+{
+	ChangeState(State.Ready);
+}
+main()
+{
+	while (_running)
+		_stateMachine.Run();
+}
+HarbourRequestStateMachine : IMessageListener
+ctor(CompanyConsole c)
+{
+	_c = c;
+	messageParser.Register(this, MesageType.HarbourResponse);
+	messageParser.Register(this, MesageType.EndInfo);
+	_main.ClearAllHarbours();
+	_running = true;
+}
+void ListenTo(MesageType messageType, String message)
+{
+	switch (messageType)
+	{
+		case MessageType.HarbourResponse:
+			_c.WriteLine(PrettifyMessage(message));
+			_main.AddHarbour(message);
+			break;
+		case MessageType.EndInfo:
+			UnregisterListeners();
+			_running = false;
+			break;
+	}
+}
+void Run()
+{
+	while (_running)
+		Thread.Sleep(1);
+	_c.ChangeState(States.Ready);
+}
+ReadyState:
+var input = console.ReadLine();
+var parsedInput = ParseInput(input);
+switch(parsedInput.requestType)
+{
+	case RequestType.GetHarbours:
+		this.ChangeState(States.HarbourRequest); //_stateMachine = new HarbourRequestStateMachine(this);
+		break;
+	...
+}

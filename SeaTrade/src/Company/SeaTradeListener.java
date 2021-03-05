@@ -19,7 +19,7 @@ public class SeaTradeListener extends ListenerThread implements IResponseHandler
 		super(port, socketName);
 		companyServer = company;
 		try {
-			companyServer.out = new PrintWriter(super.socket.getOutputStream(), true);
+			companyServer.out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -29,7 +29,7 @@ public class Company implements Runnable {
 	
 	private List<String> availableRequests;
 	
-	public Company(String companyName, int serverPort, int clientPort) {
+	public Company(String companyName, int serverPort, int clientPort, String endpoint) {
 		System.out.println("company app starts");
 		this.companyName = companyName;
 		this.serverPort = serverPort;
@@ -38,7 +38,7 @@ public class Company implements Runnable {
 		
 		shipsSessions = Collections.synchronizedList(new ArrayList<ShipSession>());
 		
-		seaTradeListener = new SeaTradeListener(clientPort, "localhost", this);
+		seaTradeListener = new SeaTradeListener(clientPort, endpoint, this);
 		seaTradeListener.start();
 	}
 	
@@ -66,7 +66,8 @@ public class Company implements Runnable {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Company cApp = new Company("TestCompany",8080,8150);
+		Company cApp = new Company("TestCompany", 8080, 8150, "localhost");
+		cApp.out.println("register:test");
 		Scanner in = new Scanner(System.in);
 		IsRunning = true;
 		while(IsRunning) {
