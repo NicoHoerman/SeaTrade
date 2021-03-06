@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import Shared.Parser;
 import Shared.Response;
+import Shared.Message.MessageParser;
 
 public class Company implements Runnable {
 
@@ -20,30 +20,36 @@ public class Company implements Runnable {
 	private String companyName;
 	private long deposit;
 	
-	private int serverPort;//Port of the Company Server
-	private int clientPort;//Port of the SeaTrade Server
+	private int companyServerPort;//Port of the Company Server
+	private int seaTradeServerPort;//Port of the SeaTrade Server
 	
 	public PrintWriter out;
-	public Parser parser;
+	public MessageParser parser;
 	
 	private List<ShipSession> shipsSessions;
 	private SeaTradeListener seaTradeListener;
 	
-	private List<String> availableRequests;
 	
-	public Company(String companyName, int serverPort, int clientPort, String endpoint) {
-		System.out.println("company app starts");
-		this.companyName = companyName;
-		this.serverPort = serverPort;
-		this.clientPort = clientPort;
-		availableRequests = Arrays.asList("register:", "harbours", "cargos", "instruct:", "exit");
-		parser = new Parser();
-		
+//	public Company(String companyName, int serverPort, int clientPort, String endpoint) {
+//		System.out.println("company app starts");
+//		this.companyName = companyName;
+//		this.companyServerPort = serverPort;
+//		this.seaTradeServerPort = clientPort;
+//		
+//		parser = new Parser();
+//		
+//		shipsSessions = Collections.synchronizedList(new ArrayList<ShipSession>());
+//		
+//		seaTradeListener = new SeaTradeListener(clientPort, endpoint, this);
+//		seaTradeListener.start();
+//	}
+	
+	public Company() {
+		System.out.println("company app created");
 		shipsSessions = Collections.synchronizedList(new ArrayList<ShipSession>());
 		
-		seaTradeListener = new SeaTradeListener(clientPort, endpoint, this);
-		seaTradeListener.start();
 	}
+	
 	
 	public String getCompanyName() {
 		return companyName;
@@ -52,10 +58,10 @@ public class Company implements Runnable {
 		return deposit;
 	}
 	public int getServerPort() {
-		return serverPort;
+		return companyServerPort;
 	}
 	public int getClientPort() {
-		return clientPort;
+		return seaTradeServerPort;
 	}
 	public PrintWriter getOut() {
 		return out;
@@ -67,64 +73,26 @@ public class Company implements Runnable {
 		
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Company cApp = new Company("TestCompany", 8080, 8150, "localhost");
-		cApp.out.println("register:test");
-		Scanner in = new Scanner(System.in);
-		IsRunning = true;
-		while(IsRunning) {
-			System.out.println("Warten auf Eingabe");
-			String input = in.nextLine();
-			
-			try{
-				cApp.processInput(input);
-			}
-			catch (Exception e) {
-				System.out.println("Invalid input");
-			}
-					
-		}
-		in.close();
-	}
-
-	public synchronized void processInput(String input) throws Exception {
-		String currentIdentifier ="";
-		for (String identifier : availableRequests) {
-			if(input.startsWith(identifier)) {
-				currentIdentifier = identifier;
-				break;
-			}
-		}
-		
-		switch (currentIdentifier) {
-		case "register:":
-			registerCompany();
-			break;
-			
-		case "harbours:":
-			getHarbourInfo();
-			break;
-					
-		case "cargos:":
-			getCargoInfo();
-			break;
-			
-		case "instruct:":
-			//instruct:habour:ship 
-			String[] content = parser.parseSimpleContent(input, 3);
-			instruct(content[1], content[2]);
-			break;
-			
-		case "exit:":
-			exit();
-			break;
-
-		default:
-			break;
-		}	
-		
-	}
+//	public static void main(String[] args) {
+//		// TODO Auto-generated method stub
+//		Company cApp = new Company("TestCompany", 8080, 8150, "localhost");
+//		Scanner in = new Scanner(System.in);
+//		IsRunning = true;
+//		while(IsRunning) {
+//			System.out.println("Warten auf Eingabe");
+//			String input = in.nextLine();
+//			
+//			try{
+//				cApp.processInput(input);
+//			}
+//			catch (Exception e) {
+//				System.out.println("Invalid input");
+//			}
+//					
+//		}
+//		in.close();
+//	}
+	//}
 	
 	public synchronized void reduceDeposit(int cost) throws Exception {
 		if(cost > deposit) {
@@ -137,14 +105,20 @@ public class Company implements Runnable {
 		deposit += profit;
 	}
 	
-	public synchronized void registerCompany() {
+	public synchronized void registerCompany(String companyName, int seaTradeServerPort, String seaTradeEndpoint, int companyServerPort) {
+		
+		this.companyName = companyName;
+		this.seaTradeServerPort = seaTradeServerPort;
+		this.companyServerPort = companyServerPort;
+		
 		try {
+			seaTradeListener = new SeaTradeListener(seaTradeServerPort, seaTradeEndpoint, this);
+			seaTradeListener.start();
 			out.println("register:" + companyName);
 		} catch (IllegalStateException e) {
 			//println("sendaction: shutdown");
 			seaTradeListener.interrupt();
 		}
-		
 	}
 	
 	public synchronized void getCargoInfo() {

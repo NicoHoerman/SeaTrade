@@ -1,11 +1,42 @@
-package Shared;
+package Shared.Message;
 
-public class Parser {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
-	public Parser() {
-		
+public class MessageParser {
+
+	public BlockingQueue MessageQueue;
+	
+	public MessageParser() {
+		MessageQueue = new ArrayBlockingQueue<Message>(500,true);
 	}
 	
+	public Message pareInput(String input) {
+		ArrayList<String> content = new ArrayList<String>(Arrays.asList(input.split(":")));	
+		MessageType msgType = mapIndentiferToType(content.remove(0));
+		return new Message(msgType, content);
+	}
+	
+	
+	private MessageType mapIndentiferToType(String indentifer) {
+		switch (indentifer) {
+		case "register":
+			return MessageType.Register;
+		case "harbours":
+			return MessageType.Harbours;
+		case "cargos":
+			return MessageType.Cargos;
+		case "instruct":
+			return MessageType.Instruct;
+		case "exit":
+			return MessageType.Exit;
+		default:
+			return MessageType.Unknown;
+		}
+	}
+
 	//Splits the string with separator ':' 
 	//Result String[] should always consist of Identifier:value:value:value
 	public String[] parseSimpleContent(String input, int expectedLength) throws Exception {

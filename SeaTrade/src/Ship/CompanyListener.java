@@ -7,15 +7,15 @@ import java.util.List;
 
 import Shared.IResponseHandler;
 import Shared.ListenerThread;
-import Shared.Parser;
 import Shared.Response;
+import Shared.Message.MessageParser;
 
 public class CompanyListener extends ListenerThread implements IResponseHandler {
 	
 	private List<String> expectedResponses;
 	//private List<String> expectedRequests;
 	private Ship ship;
-	private Parser parser;
+	private MessageParser parser;
 	
 	public CompanyListener(int port, String socketName, Ship ship) {
 		super(port, socketName);
@@ -29,7 +29,7 @@ public class CompanyListener extends ListenerThread implements IResponseHandler 
 		
 		//expectedRequests = Arrays.asList("instruct:");
 		expectedResponses = Arrays.asList("recruited:", "updated:", "cleared:","instruct:");
-		parser = new Parser();
+		parser = new MessageParser();
 	}
 
 	@Override
