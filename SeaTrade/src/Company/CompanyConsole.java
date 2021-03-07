@@ -1,14 +1,18 @@
 package Company;
 
 import Shared.Console;
-import Shared.StateMachine.*;;
+import Shared.StateMachine.*;
+import View.ConsoleView;
+import View.IView;;
 
 public class CompanyConsole extends Console {
 	
 	private boolean _isRunning;
 	private IStateMachine _stateMachine;
-	public StateController stateController;
+	
 	public Company company;
+	public StateController stateController;
+	public IView view; 
 
 	public CompanyConsole() {
 		//ToDo Change State to Ready
@@ -16,6 +20,7 @@ public class CompanyConsole extends Console {
 		_isRunning = true;
 		company = new Company();
 		stateController = new StateController(this);
+		view = new ConsoleView();
 		
 		try {
 			stateController.ChangeState(State.Ready);
@@ -29,7 +34,12 @@ public class CompanyConsole extends Console {
 		// TODO Auto-generated method stub
 		CompanyConsole console = new CompanyConsole(); 
 		while(console._isRunning) {
-			console._stateMachine.Run();
+			try {
+				console._stateMachine.Run();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	
 	}

@@ -24,7 +24,7 @@ public class Company implements Runnable {
 	private int seaTradeServerPort;//Port of the SeaTrade Server
 	
 	public PrintWriter out;
-	public MessageParser parser;
+	public MessageParser messageParser;
 	
 	private List<ShipSession> shipsSessions;
 	private SeaTradeListener seaTradeListener;
@@ -47,7 +47,9 @@ public class Company implements Runnable {
 	public Company() {
 		System.out.println("company app created");
 		shipsSessions = Collections.synchronizedList(new ArrayList<ShipSession>());
-		
+		messageParser = new MessageParser();
+		Thread messageParserThread = new Thread(messageParser);
+		messageParserThread.start();
 	}
 	
 	
@@ -63,36 +65,12 @@ public class Company implements Runnable {
 	public int getClientPort() {
 		return seaTradeServerPort;
 	}
-	public PrintWriter getOut() {
-		return out;
-	}
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		
 	}
-	
-//	public static void main(String[] args) {
-//		// TODO Auto-generated method stub
-//		Company cApp = new Company("TestCompany", 8080, 8150, "localhost");
-//		Scanner in = new Scanner(System.in);
-//		IsRunning = true;
-//		while(IsRunning) {
-//			System.out.println("Warten auf Eingabe");
-//			String input = in.nextLine();
-//			
-//			try{
-//				cApp.processInput(input);
-//			}
-//			catch (Exception e) {
-//				System.out.println("Invalid input");
-//			}
-//					
-//		}
-//		in.close();
-//	}
-	//}
 	
 	public synchronized void reduceDeposit(int cost) throws Exception {
 		if(cost > deposit) {

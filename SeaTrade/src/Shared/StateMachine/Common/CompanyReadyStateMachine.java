@@ -25,29 +25,32 @@ public class CompanyReadyStateMachine implements IStateMachine  {
 	
 	@Override
 	public void Run() {
+		_console.view.OutputData("Warten auf Eingabe");
 		while(_isRunning) {
-			System.out.println("Warten auf Eingabe");
-			String input = in.nextLine();
-			
-			try{
-				processInput(input);
+			do {
+				String input = in.nextLine();				
+				try{
+					processInput(input);
+					_isRunning = false;
+				}
+				catch (Exception e) {
+					_console.view.OutputData("Invalid input Error: " + e.getMessage());
+				}
+				_console.view.OutputData("Warten auf Eingabe");
 			}
-			catch (Exception e) {
-				System.out.println("Invalid input");
-			}
-					
+			while(in.hasNextLine());
 		}
 		in.close();
 	}
 	
 	
 	private synchronized void processInput(String input) throws Exception {
-		Message msg = _parser.pareInput(input);
+		Message msg = _parser.parseInput(input);
 		//Push message to Q
+		_console.company.messageParser.MessageQueue.add(msg);
 		switch (msg.type) {
 		case Register:
 			_console.stateController.ChangeState(State.RegisterRequst);
-			this._isRunning = false;
 			break;
 			
 		case Harbours:
