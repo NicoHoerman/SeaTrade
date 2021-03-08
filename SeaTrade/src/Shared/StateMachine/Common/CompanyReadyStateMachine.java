@@ -52,17 +52,15 @@ public class CompanyReadyStateMachine implements IStateMachine  {
 		case Register:
 			_console.stateController.ChangeState(State.RegisterRequst);
 			break;
-			
-		case Harbours:
+		case GetHarbours:
 			_console.stateController.ChangeState(State.HarbourRequest);
 			break;
-					
-		case Cargos:
+		case GetCargos:
 			_console.stateController.ChangeState(State.CargoRequest);
 			break;
 			
 		case Instruct: 
-			_console.stateController.ChangeState(State.InstructRequst);
+			_console.stateController.ChangeState(State.InstructRequest);
 			break;
 			
 		case Exit:

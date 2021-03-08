@@ -6,7 +6,9 @@ public enum State {
 	Ready,
 	RegisterRequst,
 	HarbourRequest,
+	HarbourResult,
 	CargoRequest,
-	InstructRequst,
+	CargoResult,
+	InstructRequest,
 	Exit,
 }

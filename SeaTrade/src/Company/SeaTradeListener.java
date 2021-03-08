@@ -32,23 +32,17 @@ public class SeaTradeListener extends ListenerThread implements IResponseHandler
 	public void run() {
 		isRunning = true;
 		while(isRunning) {
-			
-			boolean receiving = true;
 			response = "";
-			
-			do {
-				try {
-					response += in.readLine();
-					//ToDo If single Line
-					if(response.endsWith("endinfo"))
-						receiving = false;
-					
-				} catch (IOException e) {
-					e.printStackTrace();
-				}	
-			}
-			while(receiving);
-			
+			try {
+				response += in.readLine();
+				//ToDo If single Line
+		
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}	
+		
+		
 			Response validatedResponse = validateResponse(response);
 			if(validatedResponse.isError)
 				processError(validatedResponse);

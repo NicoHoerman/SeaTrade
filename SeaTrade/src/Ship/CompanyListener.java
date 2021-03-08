@@ -105,9 +105,9 @@ public class CompanyListener extends ListenerThread implements IResponseHandler 
 		
 	}
 
-	private void recruited(String content) throws Exception {
-		String[][] data = parser.parseComplexContent(content,2);
-		ship.setCompany(data[1][0]);
-		ship.setDestination(data[2][0]);
+	private void recruited(String content) {
+//		String[][] data = parser.parseComplexContent(content,2);
+//		ship.setCompany(data[1][0]);
+//		ship.setDestination(data[2][0]);
 	}
 }

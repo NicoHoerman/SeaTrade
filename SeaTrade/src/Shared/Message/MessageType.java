@@ -3,8 +3,11 @@ package Shared.Message;
 public enum MessageType {
 	Unknown,
 	Register,
-	Harbours,
-	Cargos,
+	GetHarbours,
+	Harbour,
+	GetCargos,
+	Cargo,
 	Instruct,
-	Exit
+	Exit,
+	EndInfo
 }

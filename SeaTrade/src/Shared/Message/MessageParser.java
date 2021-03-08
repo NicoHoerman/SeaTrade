@@ -28,9 +28,9 @@ public class MessageParser implements Runnable {
 					MessageQueue.add(msg);
 				}
 				else {
-					for (IMessageListener listener : currentListeners) {
-						listener.ListenTo(msg);
-					}					
+					for (int i = 0; i < currentListeners.size(); i++) {
+						currentListeners.get(i).ListenTo(msg);						
+					} 
 				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -70,9 +70,15 @@ public class MessageParser implements Runnable {
 		case "register":
 			return MessageType.Register;
 		case "harbours":
-			return MessageType.Harbours;
+			return MessageType.GetHarbours;
+		case "harbour":
+			return MessageType.Harbour;
 		case "cargos":
-			return MessageType.Cargos;
+			return MessageType.GetCargos;
+		case "cargo":
+			return MessageType.Cargo;
+		case "endinfo:":
+			return MessageType.EndInfo;
 		case "instruct":
 			return MessageType.Instruct;
 		case "exit":
