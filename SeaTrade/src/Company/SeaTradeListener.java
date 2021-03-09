@@ -9,100 +9,34 @@ import java.util.List;
 import Shared.IResponseHandler;
 import Shared.ListenerThread;
 import Shared.Response;
+import Shared.Message.Message;
 
-public class SeaTradeListener extends ListenerThread implements IResponseHandler {
+public class SeaTradeListener extends ListenerThread {
 
-	private List<String> expectedResponses;
-	private Company companyServer;
+	private Company company;
 	
 	public SeaTradeListener(int port, String socketName, Company company) {
 		super(port, socketName);
-		companyServer = company;
+		this.company = company;
 		try {
-			companyServer.out = new PrintWriter(socket.getOutputStream(), true);
+			company.out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		expectedResponses = Arrays.asList("registered:", "harbour:", "cargo:", "newcargo:");
 	}
 
 	@Override
 	public void run() {
 		isRunning = true;
 		while(isRunning) {
-			response = "";
 			try {
-				response += in.readLine();
-				//ToDo If single Line
-		
-				
+				response = in.readLine();
+				Message msg = company.messageParser.parseInput(response);
+				company.messageParser.MessageQueue.add(msg);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}	
-		
-		
-			Response validatedResponse = validateResponse(response);
-			if(validatedResponse.isError)
-				processError(validatedResponse);
-			else 
-				processResponse(validatedResponse);
 		}
 	}
-
-	@Override
-	public void processError(Response response) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void processResponse(Response response) {
-		String currentIdentifier ="";
-		for (String identifier : expectedResponses) {
-			if(response.content.startsWith(identifier)) {
-				currentIdentifier = identifier;
-				break;
-			}
-		}
-		
-		switch (currentIdentifier) {
-		case "registered:":
-			registered(response.content);
-			break;
-			
-		case "harbour:":
-			harbour(response.content);
-			break;
-					
-		case "cargo:":
-			cargo(response.content);
-			break;
-			
-		case "newcargo:":
-			newCargo(response.content);
-			break;
-
-		default:
-			break;
-		}	
-	}
-
-	private void registered(String content) {
-		
-	}
-	
-	private void cargo(String content) {
-		
-	}
-
-	private void harbour(String content) {
-	
-	}
-	
-	private void newCargo(String content) {
-		
-	}
-	
 }

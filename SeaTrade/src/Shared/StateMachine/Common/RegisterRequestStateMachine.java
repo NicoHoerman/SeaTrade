@@ -13,7 +13,6 @@ public class RegisterRequestStateMachine  implements IStateMachine, IMessageList
 	private boolean _isRunning;
 	private CompanyConsole _console;
 	
-	
 	public RegisterRequestStateMachine(Console console) {
 		_console = (CompanyConsole)console;
 		_console.company.messageParser.Register(this, MessageType.Register);
@@ -24,8 +23,9 @@ public class RegisterRequestStateMachine  implements IStateMachine, IMessageList
 	public void Run() throws Exception {
 		while (_isRunning) {
 			Thread.sleep(1);
+			
 		}
-		_console.stateController.ChangeState(State.Ready);
+		_console.stateController.ChangeState(State.RegisterResult);
 	}
 
 	@Override
@@ -34,8 +34,6 @@ public class RegisterRequestStateMachine  implements IStateMachine, IMessageList
 			_console.view.OutputData("Invalid request");
 		
 		_console.company.registerCompany(message.content.get(0), Integer.parseInt(message.content.get(1)), message.content.get(2), Integer.parseInt(message.content.get(3)));
-		_console.view.OutputData("Registered");
-		
 		_console.company.messageParser.Unregister(this, MessageType.Register);
 		_isRunning = false;
 	}

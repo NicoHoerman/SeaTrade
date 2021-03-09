@@ -36,7 +36,8 @@ public class HarbourResultStateMachine implements IStateMachine, IMessageListene
 			case Harbour:
 				if(message.content.size() == 2) {
 					_console.view.OutputData("Name: " + message.content.get(1) + " " + message.content.get(0));
-					String[] position = message.content.get(1).split("|");
+					String x = message.content.get(0);
+					String[] position = x.split("[|]");
 					Harbour h = new Harbour(message.content.get(1), Integer.parseInt(position[1]), Integer.parseInt(position[2]));
 					_console.company.harbours.add(h);
 				}

@@ -4,6 +4,7 @@ import Shared.StateMachine.Common.HarbourRequestStateMachine;
 import Shared.StateMachine.Common.HarbourResultStateMachine;
 import Shared.StateMachine.Common.InstructRequestStateMachine;
 import Shared.StateMachine.Common.RegisterRequestStateMachine;
+import Shared.StateMachine.Common.RegisterResultStateMachine;
 import Shared.Console;
 import Shared.StateMachine.Common.CargoRequestStateMachine;
 import Shared.StateMachine.Common.CargoResultStateMachine;
@@ -26,6 +27,8 @@ public class StateFactory {
 			return new CompanyReadyStateMachine(_console);
 		case RegisterRequst: 
 			return new RegisterRequestStateMachine(_console);
+		case RegisterResult: 
+			return new RegisterResultStateMachine(_console);
 		case HarbourRequest: 
 			return new HarbourRequestStateMachine(_console);
 		case HarbourResult: 

@@ -6,6 +6,7 @@ import Company.CompanyConsole;
 import Shared.Console;
 import Shared.Message.Message;
 import Shared.Message.MessageParser;
+import Shared.Message.MessageType;
 import Shared.StateMachine.IStateMachine;
 import Shared.StateMachine.State;
 
@@ -32,6 +33,7 @@ public class CompanyReadyStateMachine implements IStateMachine  {
 				try{
 					processInput(input);
 					_isRunning = false;
+					break;
 				}
 				catch (Exception e) {
 					_console.view.OutputData("Invalid input Error: " + e.getMessage());
@@ -40,13 +42,15 @@ public class CompanyReadyStateMachine implements IStateMachine  {
 			}
 			while(in.hasNextLine());
 		}
-		in.close();
+		//in.close();
 	}
 	
 	
 	private synchronized void processInput(String input) throws Exception {
 		Message msg = _parser.parseInput(input);
-		//Push message to Q
+		if(msg.type == MessageType.Unknown)
+			throw new Exception("ToDo");
+		
 		_console.company.messageParser.MessageQueue.add(msg);
 		switch (msg.type) {
 		case Register:

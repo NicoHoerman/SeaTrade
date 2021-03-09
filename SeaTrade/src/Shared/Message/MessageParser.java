@@ -41,7 +41,25 @@ public class MessageParser implements Runnable {
 	}
 	
 	public Message parseInput(String input) {
-		ArrayList<String> content = new ArrayList<String>(Arrays.asList(input.split(":")));	
+		if(!input.contains(":")) {
+			ArrayList<String> content = new ArrayList<String>();
+			content.add(input);
+			MessageType msgType = MessageType.Unknown;
+			return new Message(msgType, content);
+		}
+		ArrayList<String> content = new ArrayList<String>(Arrays.asList(input.split("[:]")));	
+		MessageType msgType = mapIndentiferToType(content.remove(0));
+		return new Message(msgType, content);
+	}
+	
+	public Message parseResponse(String input) {
+		if(!input.contains(":")) {
+			ArrayList<String> content = new ArrayList<String>();
+			content.add(input);
+			MessageType msgType = MessageType.Error;
+			return new Message(msgType, content);
+		}
+		ArrayList<String> content = new ArrayList<String>(Arrays.asList(input.split("[:]")));	
 		MessageType msgType = mapIndentiferToType(content.remove(0));
 		return new Message(msgType, content);
 	}
@@ -69,6 +87,8 @@ public class MessageParser implements Runnable {
 		switch (indentifer) {
 		case "register":
 			return MessageType.Register;
+		case "registered":
+			return MessageType.Registered;
 		case "harbours":
 			return MessageType.GetHarbours;
 		case "harbour":
@@ -79,6 +99,8 @@ public class MessageParser implements Runnable {
 			return MessageType.Cargo;
 		case "endinfo:":
 			return MessageType.EndInfo;
+		case "newcargo":
+			return MessageType.NewCargo;
 		case "instruct":
 			return MessageType.Instruct;
 		case "exit":

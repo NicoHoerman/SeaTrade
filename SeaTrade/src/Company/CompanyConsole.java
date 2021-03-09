@@ -37,7 +37,7 @@ public class CompanyConsole extends Console {
 			try {
 				console._stateMachine.Run();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				System.out.println("Error");
 				e.printStackTrace();
 			}
 		}
