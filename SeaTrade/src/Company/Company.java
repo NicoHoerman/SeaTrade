@@ -7,6 +7,7 @@ import java.util.List;
 
 import Shared.Harbour;
 import Shared.Message.MessageParser;
+import sea.Cargo;
 
 public class Company implements Runnable {
 
@@ -23,6 +24,7 @@ public class Company implements Runnable {
 	private List<ShipSession> shipsSessions;
 	private SeaTradeListener seaTradeListener;
 	public List<Harbour> harbours;
+	public List<Cargo> cargos;
 	
 	public Company() {
 		System.out.println("company app created");
@@ -95,10 +97,6 @@ public class Company implements Runnable {
 	public synchronized void addProfit(int profit) {
 		deposit += profit;
 	}
-	
-	
-	
-	
 
 	public synchronized void exit() {
 	

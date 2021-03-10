@@ -34,9 +34,9 @@ public class StateFactory {
 		case HarbourResult: 
 			return new HarbourResultStateMachine(_console);
 		case CargoRequest: 
-			return new CargoRequestStateMachine();
+			return new CargoRequestStateMachine(_console);
 		case CargoResult: 
-			return new CargoResultStateMachine();
+			return new CargoResultStateMachine(_console);
 		case InstructRequest: 
 			return new InstructRequestStateMachine();
 		case Exit: 

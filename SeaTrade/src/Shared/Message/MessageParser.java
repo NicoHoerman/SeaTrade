@@ -53,13 +53,15 @@ public class MessageParser implements Runnable {
 	}
 	
 	public Message parseResponse(String input) {
-		if(!input.contains(":")) {
-			ArrayList<String> content = new ArrayList<String>();
+		ArrayList<String> content;
+		if(input.contains(":")) 
+			content = new ArrayList<String>(Arrays.asList(input.split("[:]")));
+		else {
+			content = new ArrayList<String>();
 			content.add(input);
-			MessageType msgType = MessageType.Error;
-			return new Message(msgType, content);
+			content.add(input);
 		}
-		ArrayList<String> content = new ArrayList<String>(Arrays.asList(input.split("[:]")));	
+			
 		MessageType msgType = mapIndentiferToType(content.remove(0));
 		return new Message(msgType, content);
 	}
@@ -97,7 +99,7 @@ public class MessageParser implements Runnable {
 			return MessageType.GetCargos;
 		case "cargo":
 			return MessageType.Cargo;
-		case "endinfo:":
+		case "endinfo":
 			return MessageType.EndInfo;
 		case "newcargo":
 			return MessageType.NewCargo;

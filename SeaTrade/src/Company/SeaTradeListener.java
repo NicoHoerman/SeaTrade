@@ -32,7 +32,7 @@ public class SeaTradeListener extends ListenerThread {
 		while(isRunning) {
 			try {
 				response = in.readLine();
-				Message msg = company.messageParser.parseInput(response);
+				Message msg = company.messageParser.parseResponse(response);
 				company.messageParser.MessageQueue.add(msg);
 			} catch (IOException e) {
 				e.printStackTrace();

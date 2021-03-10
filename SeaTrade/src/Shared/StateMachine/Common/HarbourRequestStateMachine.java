@@ -37,7 +37,6 @@ public class HarbourRequestStateMachine implements IStateMachine, IMessageListen
 		
 		_console.company.messageParser.Unregister(this, MessageType.GetHarbours);
 		_isRunning = false;
-		
 	}
 
 }
