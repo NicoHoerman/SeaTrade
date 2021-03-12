@@ -1,5 +1,6 @@
 package Company;
 
+import Company.View.CompanyView;
 import Shared.Console;
 import Shared.StateMachine.*;
 import View.ConsoleView;
@@ -20,7 +21,7 @@ public class CompanyConsole extends Console {
 		_isRunning = true;
 		company = new Company();
 		stateController = new StateController(this);
-		view = new ConsoleView();
+		view = new CompanyView();
 		
 		try {
 			stateController.ChangeState(State.Ready);
