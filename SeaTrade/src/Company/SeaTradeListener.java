@@ -1,14 +1,9 @@
 package Company;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.List;
 
-import Shared.IResponseHandler;
 import Shared.ListenerThread;
-import Shared.Response;
 import Shared.Message.Message;
 
 public class SeaTradeListener extends ListenerThread {

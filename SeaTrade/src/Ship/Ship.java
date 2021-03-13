@@ -47,20 +47,6 @@ public class Ship {
 		messageParserThread.start();
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Ship ship = new Ship(8151,8080,"testShip");
-		Scanner in = new Scanner(System.in);
-		IsRunning = true;
-		while(IsRunning) {
-			System.out.println("Warten auf Eingabe");
-			String input = in.nextLine();
-			ship.processInput(input);
-					
-		}
-		in.close();
-	}
-
 	public synchronized void recruit(int seaTradePort, String SeaTradeEndpoint, int companyPort, String CompanyEndpoint, String shipName) {
 		this.shipName = shipName;
 		this.companyPort = companyPort;
