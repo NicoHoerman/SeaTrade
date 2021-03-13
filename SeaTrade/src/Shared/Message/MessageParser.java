@@ -107,6 +107,8 @@ public class MessageParser implements Runnable {
 			return MessageType.Instruct;
 		case "exit":
 			return MessageType.Exit;
+		case "recruit":
+			return MessageType.RegisterShip;
 		default:
 			return MessageType.Unknown;
 		}

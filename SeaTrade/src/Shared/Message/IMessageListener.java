@@ -1,6 +1,6 @@
 package Shared.Message;
 
-public interface IMessageListener {
+public interface IMessageListener  {
 
 	void ListenTo(Message message);
 }

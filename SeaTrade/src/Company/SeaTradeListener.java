@@ -13,13 +13,13 @@ import Shared.Message.Message;
 
 public class SeaTradeListener extends ListenerThread {
 
-	private Company company;
+	private Company _company;
 	
 	public SeaTradeListener(int port, String socketName, Company company) {
 		super(port, socketName);
-		this.company = company;
+		_company = company;
 		try {
-			company.out = new PrintWriter(socket.getOutputStream(), true);
+			_company.SeaTradeOut = new PrintWriter(socket.getOutputStream(), true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -32,8 +32,8 @@ public class SeaTradeListener extends ListenerThread {
 		while(isRunning) {
 			try {
 				response = in.readLine();
-				Message msg = company.messageParser.parseResponse(response);
-				company.messageParser.MessageQueue.add(msg);
+				Message msg = _company.messageParser.parseResponse(response);
+				_company.messageParser.MessageQueue.add(msg);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}	

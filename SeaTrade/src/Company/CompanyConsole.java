@@ -21,7 +21,7 @@ public class CompanyConsole extends Console {
 		_isRunning = true;
 		company = new Company();
 		stateController = new StateController(this);
-		view = new CompanyView();
+		view = new ConsoleView();
 		
 		try {
 			stateController.ChangeState(State.Ready);
@@ -45,6 +45,10 @@ public class CompanyConsole extends Console {
 	
 	}
 	
+	public void set_isRunning(boolean _isRunning) {
+		this._isRunning = _isRunning;
+	}
+
 	public void setStateMachine(IStateMachine stateMachine) {
 		_stateMachine = stateMachine;
 	}

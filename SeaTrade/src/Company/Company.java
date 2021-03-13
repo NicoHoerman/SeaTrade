@@ -1,10 +1,16 @@
 package Company;
 
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import Company.MessageListener.BackgroundMessageListener;
+import Company.MessageListener.MessageListenerHandler;
 import Shared.Harbour;
 import Shared.Message.MessageParser;
 import sea.Cargo;
@@ -16,13 +22,16 @@ public class Company implements Runnable {
 	private long deposit;
 	
 	private int companyServerPort;//Port of the Company Server
+	private ServerSocket ssock;
 	private int seaTradeServerPort;//Port of the SeaTrade Server
 	
-	public PrintWriter out;
+	public PrintWriter SeaTradeOut;
 	public MessageParser messageParser;
 	
-	private List<ShipSession> shipsSessions;
+	public List<ShipSession> shipsSessions;
 	private SeaTradeListener seaTradeListener;
+	
+	public MessageListenerHandler messageListenerHandler;
 	public List<Harbour> harbours;
 	public List<Cargo> cargos;
 	
@@ -35,12 +44,28 @@ public class Company implements Runnable {
 		messageParser = new MessageParser();
 		Thread messageParserThread = new Thread(messageParser);
 		messageParserThread.start();
+		
+		messageListenerHandler = new MessageListenerHandler();
 	}
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		//ToDo Register Ships
+		try {
+			ssock = new ServerSocket(companyServerPort);
+			ssock.setSoTimeout(2000);
+			int counter = 1;
+			String shipname = "Ship" + counter;
+			while (!Thread.interrupted()) {
+				try {
+					Socket client = ssock.accept();
+					shipsSessions.add(new ShipSession(shipname, client, this));
+					counter++;
+				} catch (SocketTimeoutException e) {
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public synchronized void registerCompany(String companyName, int seaTradeServerPort, String seaTradeEndpoint, int companyServerPort) {
@@ -52,15 +77,16 @@ public class Company implements Runnable {
 		try {
 			seaTradeListener = new SeaTradeListener(seaTradeServerPort, seaTradeEndpoint, this);
 			seaTradeListener.start();
-			out.println("register:" + companyName);
+			SeaTradeOut.println("register:" + companyName);
 		} catch (IllegalStateException e) {
 			seaTradeListener.interrupt();
 		}
+		
 	}
 	
 	public synchronized void getCargoInfo() {
 		try {
-			out.println("getinfo:cargo");
+			SeaTradeOut.println("getinfo:cargo");
 		} catch (IllegalStateException e) {
 			seaTradeListener.interrupt();
 		}
@@ -68,7 +94,7 @@ public class Company implements Runnable {
 	
 	public synchronized void getHarbourInfo() {
 		try {
-			out.println("getinfo:harbour");
+			SeaTradeOut.println("getinfo:harbour");
 		} catch (IllegalStateException e) {
 			seaTradeListener.interrupt();
 		}

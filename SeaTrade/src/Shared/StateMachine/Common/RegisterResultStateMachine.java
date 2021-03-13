@@ -1,6 +1,7 @@
 package Shared.StateMachine.Common;
 
 import Company.CompanyConsole;
+import Company.MessageListener.NewCargoMessageListener;
 import Shared.Console;
 import Shared.Message.IMessageListener;
 import Shared.Message.Message;
@@ -36,6 +37,11 @@ public class RegisterResultStateMachine implements IStateMachine, IMessageListen
 				if(message.content.size() == 2) {
 					_console.company.addProfit(Integer.parseInt(message.content.get(1)));
 					_console.view.OutputData("Map: " + message.content.get(0) + " Deposit: " + message.content.get(1));
+					
+					NewCargoMessageListener newCargoML = new NewCargoMessageListener(_console.company);
+					newCargoML.start();
+					//_console.company.messageListenerHandler
+						//.RegisterAndStartListenerThread(new NewCargoMessageListener(_console.company));
 				}
 				else {
 					_console.view.OutputData("Invalid Response");

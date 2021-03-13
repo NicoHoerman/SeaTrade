@@ -12,5 +12,6 @@ public enum MessageType {
 	Instruct,
 	Exit,
 	EndInfo,
+	RegisterShip,
 	Error
 }

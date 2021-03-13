@@ -19,7 +19,6 @@ public class StateFactory {
 		_console = console;
 	}
 	
-	
 	public IStateMachine create(State state) throws Exception {
 		
 		switch (state) {
@@ -40,7 +39,7 @@ public class StateFactory {
 		case InstructRequest: 
 			return new InstructRequestStateMachine();
 		case Exit: 
-			return new ExitStateMachine();
+			return new ExitStateMachine(_console);
 		case UnknownCommand: 
 		default:
 			throw new Exception("ToDo Not Implemented");
