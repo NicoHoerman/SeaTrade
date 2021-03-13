@@ -12,14 +12,15 @@ import Shared.StateMachine.Common.CompanyReadyStateMachine;
 import Shared.StateMachine.Common.CompanyRequestStateMachine;
 import Shared.StateMachine.Common.ExitStateMachine;
 
-public class StateFactory {
+public class CompanyStateFactory implements IStateFactory {
 	
 	private Console _console;
 
-	public StateFactory(Console console) {
+	public CompanyStateFactory(Console console) {
 		_console = console;
 	}
 	
+	@Override
 	public IStateMachine create(State state) throws Exception {
 		
 		switch (state) {

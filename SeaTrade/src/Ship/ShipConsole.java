@@ -1,25 +1,29 @@
-package Company;
+package Ship;
 
-import Company.View.CompanyView;
+import Company.Company;
+import Company.CompanyConsole;
 import Shared.Console;
-import Shared.StateMachine.*;
+import Shared.StateMachine.IStateMachine;
+import Shared.StateMachine.ShipStateFactory;
+import Shared.StateMachine.State;
+import Shared.StateMachine.StateController;
 import View.ConsoleView;
-import View.IView;;
+import View.IView;
 
-public class CompanyConsole extends Console {
+public class ShipConsole  extends Console{
 	
 	private boolean _isRunning;
 	private IStateMachine _stateMachine;
 	
-	public Company company;
+	public Ship ship;
 	public StateController stateController;
 	public IView view; 
 
-	public CompanyConsole() {
-		System.out.println("Company console started...");
+	public ShipConsole() {
+		System.out.println("Ship console started...");
 		_isRunning = true;
-		company = new Company();
-		stateController = new StateController(this, new CompanyStateFactory(this));
+		ship = new Ship();
+		stateController = new StateController(this, new ShipStateFactory(this));
 		view = new ConsoleView();
 		
 		try {
@@ -31,7 +35,7 @@ public class CompanyConsole extends Console {
 	}
 	
 	public static void main(String[] args) {
-		CompanyConsole console = new CompanyConsole(); 
+		ShipConsole console = new ShipConsole(); 
 		while(console._isRunning) {
 			try {
 				console._stateMachine.Run();
@@ -49,4 +53,5 @@ public class CompanyConsole extends Console {
 	public void setStateMachine(IStateMachine stateMachine) {
 		_stateMachine = stateMachine;
 	}
+
 }

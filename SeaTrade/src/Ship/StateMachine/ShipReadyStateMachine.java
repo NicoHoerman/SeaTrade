@@ -1,26 +1,26 @@
-package Shared.StateMachine.Common;
+package Ship.StateMachine;
 
 import java.util.Scanner;
 
-import Company.CompanyConsole;
 import Shared.Console;
 import Shared.Message.Message;
 import Shared.Message.MessageParser;
 import Shared.Message.MessageType;
 import Shared.StateMachine.IStateMachine;
 import Shared.StateMachine.State;
+import Ship.ShipConsole;
 
-public class CompanyReadyStateMachine implements IStateMachine  {
-
+public class ShipReadyStateMachine implements IStateMachine {
+	
 	private boolean _isRunning;
 	private Scanner in;
-	private CompanyConsole _console;
+	private ShipConsole _console;
 	private MessageParser _parser;
 	
-	public CompanyReadyStateMachine(Console console) {
+	public ShipReadyStateMachine(Console console) {
 		_isRunning = true;
-		_console = (CompanyConsole) console;
-		_parser = _console.company.messageParser;
+		_console = (ShipConsole) console;
+		_parser = _console.ship.messageParser;
 		in = new Scanner(System.in);
 	}
 	
@@ -44,29 +44,16 @@ public class CompanyReadyStateMachine implements IStateMachine  {
 		}
 		//in.close();
 	}
-	
+		
 	private synchronized void processInput(String input) throws Exception {
 		Message msg = _parser.parseInput(input);
 		if(msg.type == MessageType.Unknown)
 			throw new Exception("ToDo");
 		
-		_console.company.messageParser.MessageQueue.add(msg);
+		_console.ship.messageParser.MessageQueue.add(msg);
 		switch (msg.type) {
-		case GetCompany:
-			_console.stateController.ChangeState(State.GetCompany);
-			break;
-		case Register:
-			_console.stateController.ChangeState(State.RegisterRequst);
-			break;
-		case GetHarbours:
-			_console.stateController.ChangeState(State.HarbourRequest);
-			break;
-		case GetCargos:
-			_console.stateController.ChangeState(State.CargoRequest);
-			break;	
-		case Instruct: 
-			_console.stateController.ChangeState(State.InstructRequest);
-			break;
+		case RegisterShip:
+			_console.stateController.ChangeState(State.RegisterShipRequest);
 		case Exit:
 			_console.stateController.ChangeState(State.Exit);
 			break;

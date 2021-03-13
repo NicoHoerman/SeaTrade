@@ -115,16 +115,34 @@ public class MessageParser implements Runnable {
 			return MessageType.NewCargo;
 		case "instruct":
 			return MessageType.Instruct;
-		case "exit":
-			return MessageType.Exit;
+		case "accepted":
+			return MessageType.Accepted;			
 		case "recruit":
 			return MessageType.RegisterShip;
+		case "recruited":
+			return MessageType.Recruited;
 		case "update":
 			return MessageType.Update;
+		case "updated":
+			return MessageType.Updated;
 		case "clear":
 			return MessageType.Clear;
-		case "accepted":
-			return MessageType.Accepted;
+		case "cleared":
+			return MessageType.Cleared;
+		case "launch":
+			return MessageType.Launch;
+		case "launched":
+			return MessageType.Launched;
+		case "loadcargo":
+			return MessageType.LoadCrago;
+		case "loaded":
+			return MessageType.Loaded;
+		case "unloadcargo":
+			return MessageType.UnloadCrago;
+		case "unloaded":
+			return MessageType.Unloaded;
+		case "exit":
+			return MessageType.Exit;
 		default:
 			return MessageType.Unknown;
 		}

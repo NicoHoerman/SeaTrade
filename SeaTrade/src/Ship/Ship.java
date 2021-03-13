@@ -6,12 +6,13 @@ import java.util.List;
 import java.util.Scanner;
 
 import Shared.Response;
+import Shared.Message.MessageParser;
 import sea.Cargo;
 import sea.Position;
 
 public class Ship {
 	
-	private static boolean IsRunning = false;
+	//private static boolean IsRunning = false;
 
 	private String shipName;
 	private int shipCost;
@@ -31,23 +32,19 @@ public class Ship {
 	public PrintWriter companyOut;
 	public PrintWriter seaTradeOut;
 	
+	public MessageParser messageParser;
+	
 	private CompanyListener companyListener;
 	private SeaTradeListener seaTradeListener;
 	
-	private List<String> availableRequests;
-	
-	public Ship(int seaTradePort, int companyPort, String shipName) {
-		System.out.println("ship app starts");
-		this.shipName = shipName;
-		this.companyPort = companyPort;
-		this.seaTradePort = seaTradePort;
-		availableRequests = Arrays.asList("launch:", "moveto", "loadcargo", "unloadcargo:",
-											"recruit:", "update", "clear", "exit");
+	public Ship() {
+		System.out.println("ship app created");
+		cargo = null;
+		hasCargo = false;
 		
-		companyListener = new CompanyListener(companyPort, "localhost", this);
-		companyListener.start();
-		seaTradeListener = new SeaTradeListener(seaTradePort, "localhost", this);
-		seaTradeListener.start();
+		messageParser = new MessageParser();
+		Thread messageParserThread = new Thread(messageParser);
+		messageParserThread.start();
 	}
 
 	public static void main(String[] args) {
@@ -64,54 +61,18 @@ public class Ship {
 		in.close();
 	}
 
-	public synchronized void processInput(String input) {
-		String currentIdentifier ="";
-		for (String identifier : availableRequests) {
-			if(input.startsWith(identifier)) {
-				currentIdentifier = identifier;
-				break;
-			}
-		}
-
-		switch (currentIdentifier) {
-		case "launch:":
-			launch("ToDo");
-			break;
-			
-		case "moveto:":
-			moveto("ToDo");
-			break;
-					
-		case "loadcargo:":
-			loadcargo();
-			break;
-			
-		case "unloadcargo:":
-			loadcargo();
-			break;
+	public synchronized void recruit(int seaTradePort, String SeaTradeEndpoint, int companyPort, String CompanyEndpoint, String shipName) {
+		this.shipName = shipName;
+		this.companyPort = companyPort;
+		this.seaTradePort = seaTradePort;
 		
-		case "recruit:":
-			recruit();
-			break;
-			
-		case "update:":
-			update();
-			break;
-			
-		case "clear:":
-			clear();
-			break;
-			
-		case "exit:":
-			exit();
-			break;
-
-		default:
-			break;
-		}	
-		
+		companyListener = new CompanyListener(companyPort, CompanyEndpoint, this);
+		companyListener.start();
+		companyOut.println("recruit:" + shipName);
+		//seaTradeListener = new SeaTradeListener(seaTradePort, SeaTradeEndpoint, this);
+		//seaTradeListener.start();
 	}
-
+	
 	private synchronized void exit() {
 		// TODO Auto-generated method stub
 		
@@ -123,11 +84,6 @@ public class Ship {
 	}
 
 	private synchronized void update() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private synchronized void recruit() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -151,10 +107,6 @@ public class Ship {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	public synchronized String output(Response response) throws Exception {
-		throw new Exception("Not Implemented");
-	}	
 	
 	public boolean hasCargo() {
 		return this.hasCargo;

@@ -12,5 +12,7 @@ public enum State {
 	CargoRequest,
 	CargoResult,
 	InstructRequest,
+	RegisterShipRequest,
+	RegisterShipResult,
 	Exit,
 }

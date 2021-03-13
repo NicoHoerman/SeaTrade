@@ -15,7 +15,18 @@ public enum MessageType {
 	Instruct,
 	Accepted,
 	RegisterShip,
+	Recruited,
 	Update,
+	Updated,
 	Clear,
+	Cleared,
+	Launch,
+	Launched,
+	MoveTo,
+	Moved,
+	LoadCrago,
+	Loaded,
+	UnloadCrago,
+	Unloaded,
 	Error
 }

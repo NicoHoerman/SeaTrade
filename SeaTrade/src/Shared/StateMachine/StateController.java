@@ -4,14 +4,13 @@ import Shared.Console;
 
 public class StateController {
 
-	private StateFactory _stateFactory;
+	private IStateFactory _stateFactory;
 	private Console _console;
 	
-	public StateController(Console console) {
+	public StateController(Console console, IStateFactory stateFactory) {
 		_console = console;
-		_stateFactory = new StateFactory(console);
+		_stateFactory = stateFactory;
 	}
-	
 	
 	public void ChangeState(State state) throws Exception {
 		IStateMachine newStateMachine = _stateFactory.create(state);
