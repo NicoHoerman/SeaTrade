@@ -95,6 +95,8 @@ public class MessageParser implements Runnable {
 	
 	private MessageType mapIndentiferToType(String indentifer) {
 		switch (indentifer) {
+		case "company":
+			return  MessageType.GetCompany;
 		case "register":
 			return MessageType.Register;
 		case "registered":

@@ -53,6 +53,9 @@ public class CompanyReadyStateMachine implements IStateMachine  {
 		
 		_console.company.messageParser.MessageQueue.add(msg);
 		switch (msg.type) {
+		case GetCompany:
+			_console.stateController.ChangeState(State.GetCompany);
+			break;
 		case Register:
 			_console.stateController.ChangeState(State.RegisterRequst);
 			break;
@@ -61,12 +64,10 @@ public class CompanyReadyStateMachine implements IStateMachine  {
 			break;
 		case GetCargos:
 			_console.stateController.ChangeState(State.CargoRequest);
-			break;
-			
+			break;	
 		case Instruct: 
 			_console.stateController.ChangeState(State.InstructRequest);
 			break;
-			
 		case Exit:
 			_console.stateController.ChangeState(State.Exit);
 			break;

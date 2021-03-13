@@ -2,6 +2,7 @@ package Shared.Message;
 
 public enum MessageType {
 	Unknown,
+	GetCompany,
 	Register,
 	Registered,
 	GetHarbours,

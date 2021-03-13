@@ -98,6 +98,16 @@ public class Company implements Runnable {
 	public String getCompanyName() {
 		return companyName;
 	}
+	
+	public String getCompany() {
+		StringBuilder output = new StringBuilder(getCompanyName() + ": Deposit: " + getDeposit() + "\n Ships: \n");
+		for(int i = 0; i <= shipsSessions.size()-1;i++) {
+			ShipSession ship = shipsSessions.get(i);
+			output.append(i + ": " + ship.sessionName + "\n");
+		}
+		return output.toString(); 
+	}
+	
 	public long getDeposit() {
 		return deposit;
 	}

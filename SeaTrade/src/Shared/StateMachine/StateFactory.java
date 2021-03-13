@@ -9,6 +9,7 @@ import Shared.Console;
 import Shared.StateMachine.Common.CargoRequestStateMachine;
 import Shared.StateMachine.Common.CargoResultStateMachine;
 import Shared.StateMachine.Common.CompanyReadyStateMachine;
+import Shared.StateMachine.Common.CompanyRequestStateMachine;
 import Shared.StateMachine.Common.ExitStateMachine;
 
 public class StateFactory {
@@ -22,6 +23,8 @@ public class StateFactory {
 	public IStateMachine create(State state) throws Exception {
 		
 		switch (state) {
+		case GetCompany:
+			return new CompanyRequestStateMachine(_console);
 		case Ready:
 			return new CompanyReadyStateMachine(_console);
 		case RegisterRequst: 
@@ -42,7 +45,7 @@ public class StateFactory {
 			return new ExitStateMachine(_console);
 		case UnknownCommand: 
 		default:
-			throw new Exception("ToDo Not Implemented");
+			throw new Exception("No StateMachine for State" + state);
 		}
 	}
 }

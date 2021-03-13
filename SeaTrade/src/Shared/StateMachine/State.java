@@ -4,6 +4,7 @@ public enum State {
 
 	UnknownCommand,
 	Ready,
+	GetCompany,
 	RegisterRequst,
 	RegisterResult,
 	HarbourRequest,
