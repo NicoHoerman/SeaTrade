@@ -27,6 +27,7 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			_company.messageParser.Unregister(this, MessageType.RegisterShip);
 		}
 	}
 	
@@ -46,11 +47,33 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 				_company.shipsSessions.add(_shipSession);
 			}
 			break;
-
+		case Accepted:
+			//ToDo Nothing
+			break;
+		case Clear:
+			if(message.content.size() == 1) {				
+				try {
+					_company.addProfit(Integer.parseInt(message.content.get(0)));
+				} catch (NumberFormatException e) {
+					_shipSession._shipOut.println("error:clear:Couldn't parse profit");
+					e.printStackTrace();
+				}
+				_shipSession._shipOut.println("cleared:OK");
+			}
+			break;
+		case Update:
+			if(message.content.size() == 1) {
+				try {
+					_company.reduceDeposit(Integer.parseInt(message.content.get(0)));
+				} catch (NumberFormatException e) {
+					_shipSession._shipOut.println("error:update:Couldn't parse cost");
+					e.printStackTrace();
+				}
+				_shipSession._shipOut.println("update:OK");
+			break;
+			}	
 		default:
 			break;
-		}
-		
+		}	
 	}
-
 }

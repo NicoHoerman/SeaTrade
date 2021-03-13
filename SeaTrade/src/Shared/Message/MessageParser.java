@@ -109,6 +109,12 @@ public class MessageParser implements Runnable {
 			return MessageType.Exit;
 		case "recruit":
 			return MessageType.RegisterShip;
+		case "update":
+			return MessageType.Update;
+		case "clear":
+			return MessageType.Clear;
+		case "accepted":
+			return MessageType.Accepted;
 		default:
 			return MessageType.Unknown;
 		}

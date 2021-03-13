@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import Company.MessageListener.BackgroundMessageListener;
-import Company.MessageListener.MessageListenerHandler;
 import Shared.Harbour;
 import Shared.Message.MessageParser;
 import sea.Cargo;
@@ -31,7 +29,6 @@ public class Company implements Runnable {
 	public List<ShipSession> shipsSessions;
 	private SeaTradeListener seaTradeListener;
 	
-	public MessageListenerHandler messageListenerHandler;
 	public List<Harbour> harbours;
 	public List<Cargo> cargos;
 	
@@ -44,8 +41,6 @@ public class Company implements Runnable {
 		messageParser = new MessageParser();
 		Thread messageParserThread = new Thread(messageParser);
 		messageParserThread.start();
-		
-		messageListenerHandler = new MessageListenerHandler();
 	}
 	
 	@Override
@@ -113,11 +108,12 @@ public class Company implements Runnable {
 		return seaTradeServerPort;
 	}
 	
-	public synchronized void reduceDeposit(int cost) throws Exception {
+	public synchronized boolean reduceDeposit(int cost){
 		if(cost > deposit) {
-			throw new Exception("Not Implemented");
+			return false;
 		}
 		deposit -= cost;
+		return true;
 	}
 	
 	public synchronized void addProfit(int profit) {
@@ -128,7 +124,8 @@ public class Company implements Runnable {
 	
 	}
 
-	public synchronized void instruct(String harbour, String ship) {
-		
+	public synchronized void instruct(String harbour, int shipIndex) {
+		ShipSession ship = shipsSessions.get(shipIndex);
+		ship._shipOut.println("instruct:" + harbour);
 	}
 }

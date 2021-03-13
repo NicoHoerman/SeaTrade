@@ -9,9 +9,12 @@ public enum MessageType {
 	GetCargos,
 	Cargo,
 	NewCargo,
-	Instruct,
 	Exit,
 	EndInfo,
+	Instruct,
+	Accepted,
 	RegisterShip,
+	Update,
+	Clear,
 	Error
 }
