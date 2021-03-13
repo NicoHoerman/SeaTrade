@@ -45,7 +45,7 @@ public class CompanyConsole extends Console {
 	
 	}
 	
-	public void set_isRunning(boolean _isRunning) {
+	public void setIsRunning(boolean _isRunning) {
 		this._isRunning = _isRunning;
 	}
 

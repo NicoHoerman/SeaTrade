@@ -12,6 +12,14 @@ public class MessageParser implements Runnable {
 	public BlockingQueue<Message> MessageQueue;
 	private HashMap<MessageType,ArrayList<IMessageListener>> MessageListeners;
 	
+	public boolean isRunning() {
+		return _isRunning;
+	}
+
+	public void setRunning(boolean _isRunning) {
+		this._isRunning = _isRunning;
+	}
+
 	public MessageParser() {
 		_isRunning = true;
 		MessageQueue = new ArrayBlockingQueue<Message>(500,true);

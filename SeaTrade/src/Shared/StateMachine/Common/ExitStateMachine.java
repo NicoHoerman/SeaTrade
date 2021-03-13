@@ -2,7 +2,6 @@ package Shared.StateMachine.Common;
 
 import Company.CompanyConsole;
 import Shared.Console;
-import Shared.Message.MessageType;
 import Shared.StateMachine.IStateMachine;
 
 public class ExitStateMachine implements IStateMachine {
@@ -16,7 +15,7 @@ public class ExitStateMachine implements IStateMachine {
 	@Override
 	public void Run() {
 		_console.company.exit();
-		_console.set_isRunning(false);
+		_console.setIsRunning(false);
 	}
 
 }

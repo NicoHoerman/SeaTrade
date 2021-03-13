@@ -19,7 +19,7 @@ public class SeaTradeListener extends ListenerThread {
 		super(port, socketName);
 		_company = company;
 		try {
-			_company.SeaTradeOut = new PrintWriter(socket.getOutputStream(), true);
+			_company.seaTradeOut = new PrintWriter(socket.getOutputStream(), true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

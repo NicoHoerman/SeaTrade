@@ -15,7 +15,7 @@ import sea.Cargo;
 
 public class Company implements Runnable {
 
-	private static boolean IsRunning = false;
+	//private static boolean IsRunning = false;
 	private String companyName;
 	private long deposit;
 	
@@ -23,7 +23,7 @@ public class Company implements Runnable {
 	private ServerSocket ssock;
 	private int seaTradeServerPort;//Port of the SeaTrade Server
 	
-	public PrintWriter SeaTradeOut;
+	public PrintWriter seaTradeOut;
 	public MessageParser messageParser;
 	
 	public List<ShipSession> shipsSessions;
@@ -72,7 +72,7 @@ public class Company implements Runnable {
 		try {
 			seaTradeListener = new SeaTradeListener(seaTradeServerPort, seaTradeEndpoint, this);
 			seaTradeListener.start();
-			SeaTradeOut.println("register:" + companyName);
+			seaTradeOut.println("register:" + companyName);
 		} catch (IllegalStateException e) {
 			seaTradeListener.interrupt();
 		}
@@ -81,7 +81,7 @@ public class Company implements Runnable {
 	
 	public synchronized void getCargoInfo() {
 		try {
-			SeaTradeOut.println("getinfo:cargo");
+			seaTradeOut.println("getinfo:cargo");
 		} catch (IllegalStateException e) {
 			seaTradeListener.interrupt();
 		}
@@ -89,7 +89,7 @@ public class Company implements Runnable {
 	
 	public synchronized void getHarbourInfo() {
 		try {
-			SeaTradeOut.println("getinfo:harbour");
+			seaTradeOut.println("getinfo:harbour");
 		} catch (IllegalStateException e) {
 			seaTradeListener.interrupt();
 		}
@@ -121,7 +121,16 @@ public class Company implements Runnable {
 	}
 
 	public synchronized void exit() {
-	
+		for (ShipSession ship : shipsSessions) {
+			ship._shipOut.println("exit:");
+		}
+		if(seaTradeOut != null)
+			seaTradeOut.println("exit:");
+		
+		if(seaTradeListener != null)
+			seaTradeListener.setRunning(false);
+		
+		messageParser.setRunning(false);
 	}
 
 	public synchronized void instruct(String harbour, int shipIndex) {
