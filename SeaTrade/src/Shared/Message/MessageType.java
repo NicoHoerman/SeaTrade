@@ -14,6 +14,7 @@ public enum MessageType {
 	EndInfo,
 	Instruct,
 	Accepted,
+	Connected,
 	RegisterShip,
 	Recruited,
 	Update,
@@ -28,5 +29,6 @@ public enum MessageType {
 	Loaded,
 	UnloadCrago,
 	Unloaded,
+	Reached,
 	Error
 }

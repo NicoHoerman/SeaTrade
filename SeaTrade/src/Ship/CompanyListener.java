@@ -2,18 +2,15 @@ package Ship;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.List;
 
-import Shared.IResponseHandler;
 import Shared.ListenerThread;
-import Shared.Response;
 import Shared.Message.Message;
-import Shared.Message.MessageParser;
+import Ship.MessageListener.CompanyMessageListener;
 
 public class CompanyListener extends ListenerThread {
 	
 	private Ship ship;
+	private CompanyMessageListener _messageListener;
 	
 	public CompanyListener(int port, String socketName, Ship ship) {
 		super(port, socketName);
@@ -24,11 +21,13 @@ public class CompanyListener extends ListenerThread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		isRunning = true;
+		_messageListener = new CompanyMessageListener(this, ship);
+		_messageListener.start();
 	}
 
 	@Override
 	public void run() {
-		isRunning = true;
 		while(isRunning){
 			try {
 			response = in.readLine();

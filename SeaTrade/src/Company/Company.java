@@ -53,7 +53,9 @@ public class Company implements Runnable {
 			while (!Thread.interrupted()) {
 				try {
 					Socket client = ssock.accept();
-					shipsSessions.add(new ShipSession(shipname, client, this));
+					ShipSession ship = new ShipSession(shipname, client, this);
+					ship.start();
+					shipsSessions.add(ship);
 					counter++;
 				} catch (SocketTimeoutException e) {
 				}

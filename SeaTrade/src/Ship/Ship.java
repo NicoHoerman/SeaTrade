@@ -8,6 +8,7 @@ import java.util.Scanner;
 import Shared.Response;
 import Shared.Message.MessageParser;
 import sea.Cargo;
+import sea.Direction;
 import sea.Position;
 
 public class Ship {
@@ -27,7 +28,9 @@ public class Ship {
 	private String destination;
 	
 	private int seaTradePort;//Port of the SeaTrade Server
+	private String seaTradeEndpoint;
 	private int companyPort;//Port of the Company Server
+	private String companyEndpoint;
 	
 	public PrintWriter companyOut;
 	public PrintWriter seaTradeOut;
@@ -47,16 +50,22 @@ public class Ship {
 		messageParserThread.start();
 	}
 
-	public synchronized void recruit(int seaTradePort, String SeaTradeEndpoint, int companyPort, String CompanyEndpoint, String shipName) {
-		this.shipName = shipName;
-		this.companyPort = companyPort;
+	public synchronized void recruit(int seaTradePort, String seaTradeEndpoint, int companyPort, String companyEndpoint, String shipName) {
 		this.seaTradePort = seaTradePort;
+		this.seaTradeEndpoint = seaTradeEndpoint;
+		this.companyPort = companyPort;
+		this.companyEndpoint = companyEndpoint;
+		this.shipName = shipName;
 		
-		companyListener = new CompanyListener(companyPort, CompanyEndpoint, this);
+		companyListener = new CompanyListener(companyPort, companyEndpoint, this);
 		companyListener.start();
-		companyOut.println("recruit:" + shipName);
-		//seaTradeListener = new SeaTradeListener(seaTradePort, SeaTradeEndpoint, this);
-		//seaTradeListener.start();
+		
+	}
+	
+	public void connectToSeaTrade() {
+		seaTradeListener = new SeaTradeListener(seaTradePort, companyEndpoint, this);
+		seaTradeListener.start();
+		seaTradeOut.println("launch:" + getCompany() + getDestination() + getShipName());
 	}
 	
 	private synchronized void exit() {
@@ -80,11 +89,6 @@ public class Ship {
 	}
 
 	private synchronized void moveto(String harbour) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	private synchronized void launch(String harbour) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -114,7 +118,7 @@ public class Ship {
 		return shipCost;
 	}
 
-	private void setShipCost(int shipCost) {
+	public void setShipCost(int shipCost) {
 		this.shipCost = shipCost;
 	}
 
@@ -134,4 +138,28 @@ public class Ship {
 		this.destination = destination;
 	}
 	
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+	
+	public Direction maptoDir(String dir) {
+		switch (dir) {
+		case "NORTH":
+			return Direction.NORTH;
+		case "EAST":
+			return Direction.EAST;
+		case "SOUTH":
+			return Direction.SOUTH;
+		case "WEST":
+			return Direction.WEST;
+		case "NONE":
+			return Direction.NONE;
+		default:
+			return Direction.NONE;
+		}
+	}
 }

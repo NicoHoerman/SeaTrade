@@ -22,21 +22,30 @@ public class RegisterRequestStateMachine  implements IStateMachine, IMessageList
 	@Override
 	public void Run() throws Exception {
 		while (_isRunning) {
-			Thread.sleep(1);
-			
+			Thread.sleep(1);			
 		}
-		_console.stateController.ChangeState(State.RegisterResult);
 	}
 
 	@Override
 	public void ListenTo(Message message) {
-		if(message.type != MessageType.Register || message.content.size() != 4)
+		try {
+			
+		if(message.type != MessageType.Register || message.content.size() != 4) {
 			_console.view.OutputData("Invalid request");
+			_console.stateController.ChangeState(State.Ready);
+		}
+		else {		
+			_console.company.registerCompany(message.content.get(0), Integer.parseInt(message.content.get(1)), message.content.get(2), Integer.parseInt(message.content.get(3)));
+			Thread shipListener = new Thread(_console.company);
+			shipListener.start();
+			_console.stateController.ChangeState(State.RegisterResult);
+		}
 		
-		_console.company.registerCompany(message.content.get(0), Integer.parseInt(message.content.get(1)), message.content.get(2), Integer.parseInt(message.content.get(3)));
-		Thread shipListener = new Thread(_console.company);
-		shipListener.start();
 		_console.company.messageParser.Unregister(this, MessageType.Register);
 		_isRunning = false;
+		}
+		catch (Exception e) {
+			//ToDo
+		}
 	}
 }

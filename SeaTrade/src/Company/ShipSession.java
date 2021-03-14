@@ -20,6 +20,7 @@ public class ShipSession extends ListenerThread{
 
 	public ShipSession(String sessionName, Socket socket, Company company) {
 		super(socket);
+		setRunning(true);
 		this.sessionName = sessionName;
 		_company = company;
 		_messageListener = new ShipSessionMessageListener(_company, this);
@@ -27,6 +28,7 @@ public class ShipSession extends ListenerThread{
 		
 		try {
 			_shipOut = new PrintWriter(socket.getOutputStream(), true);
+			_shipOut.println("connected:");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

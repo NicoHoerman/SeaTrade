@@ -25,15 +25,24 @@ public class RecruitRequestStateMachine implements IStateMachine, IMessageListen
 			Thread.sleep(1);
 			
 		}
-		_console.stateController.ChangeState(State.RegisterShipResult);
+		
 	}
 
 	@Override
 	public void ListenTo(Message message) {
-		if(message.type != MessageType.RegisterShip || message.content.size() != 5)
-			_console.view.OutputData("Invalid request");
-		
-		_console.ship.recruit(Integer.parseInt(message.content.get(0)),message.content.get(1),Integer.parseInt(message.content.get(2)), message.content.get(3), message.content.get(4));
+		try {
+			if(message.type != MessageType.RegisterShip || message.content.size() != 5) {
+				_console.view.OutputData("Invalid request");
+				_console.stateController.ChangeState(State.Ready);	
+			}
+			else {
+				_console.ship.recruit(Integer.parseInt(message.content.get(0)),message.content.get(1),Integer.parseInt(message.content.get(2)), message.content.get(3), message.content.get(4));
+				_console.stateController.ChangeState(State.RegisterShipResult);
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
 		_console.ship.messageParser.Unregister(this, MessageType.RegisterShip);
 		_isRunning = false;
 	}

@@ -27,12 +27,13 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			_company.messageParser.Unregister(this, MessageType.RegisterShip);
 		}
+		_company.messageParser.Unregister(this, MessageType.RegisterShip);
 	}
 	
 	@Override
 	public void ListenTo(Message message) {
+		System.out.println("received msg from ship");
 		if(_shipSession.isRegistered == false && message.type != MessageType.RegisterShip) {
 			_company.shipsSessions.remove(_shipSession);
 			_shipSession.setRunning(false);

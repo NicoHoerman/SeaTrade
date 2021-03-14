@@ -5,10 +5,12 @@ import java.io.PrintWriter;
 
 import Shared.ListenerThread;
 import Shared.Message.Message;
+import Ship.MessageListener.SeaTradeMessageListener;
 
 public class SeaTradeListener extends ListenerThread {
 
 	private Ship _ship;
+	private SeaTradeMessageListener _messageListener;
 	
 	public SeaTradeListener(int port, String socketName, Ship ship) {
 		super(port, socketName);
@@ -19,11 +21,13 @@ public class SeaTradeListener extends ListenerThread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		isRunning = true;
+		_messageListener = new SeaTradeMessageListener(this, ship);
+		_messageListener.start();
 	}
 
 	@Override
 	public void run() {
-		isRunning = true;
 		while(isRunning) {
 			try {
 				response = in.readLine();

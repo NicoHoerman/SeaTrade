@@ -54,6 +54,7 @@ public class ShipReadyStateMachine implements IStateMachine {
 		switch (msg.type) {
 		case RegisterShip:
 			_console.stateController.ChangeState(State.RegisterShipRequest);
+			break;
 		case Exit:
 			_console.stateController.ChangeState(State.Exit);
 			break;
