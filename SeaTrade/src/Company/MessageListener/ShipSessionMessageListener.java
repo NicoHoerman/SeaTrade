@@ -45,6 +45,8 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 				_company.shipsSessions.remove(_shipSession);
 				_shipSession.sessionName = message.content.get(0);
 				_company.shipsSessions.add(_shipSession);
+				String startHarbour = _company.harbours.isEmpty() ? null : _company.harbours.get(0).get_name() ;
+				_shipSession._shipOut.println("recruited:COMPANY|"+_company.getCompanyName()+"|"+_company.getDeposit()+":"+startHarbour);
 			}
 			break;
 		case Accepted:

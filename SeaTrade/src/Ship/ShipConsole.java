@@ -1,7 +1,5 @@
 package Ship;
 
-import Company.Company;
-import Company.CompanyConsole;
 import Shared.Console;
 import Shared.StateMachine.IStateMachine;
 import Shared.StateMachine.ShipStateFactory;

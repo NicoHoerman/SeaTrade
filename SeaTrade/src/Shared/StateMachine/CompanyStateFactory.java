@@ -41,7 +41,7 @@ public class CompanyStateFactory implements IStateFactory {
 		case CargoResult: 
 			return new CargoResultStateMachine(_console);
 		case InstructRequest: 
-			return new InstructRequestStateMachine();
+			return new InstructRequestStateMachine(_console);
 		case Exit: 
 			return new ExitStateMachine(_console);
 		case UnknownCommand: 
