@@ -136,15 +136,17 @@ public class MessageParser implements Runnable {
 		case "launched":
 			return MessageType.Launched;
 		case "loadcargo":
-			return MessageType.LoadCrago;
+			return MessageType.LoadCargo;
 		case "loaded":
 			return MessageType.Loaded;
 		case "unloadcargo":
-			return MessageType.UnloadCrago;
+			return MessageType.UnloadCargo;
 		case "unloaded":
 			return MessageType.Unloaded;
 		case "exit":
 			return MessageType.Exit;
+		case "reached":
+			return MessageType.Reached;
 		default:
 			return MessageType.Unknown;
 		}

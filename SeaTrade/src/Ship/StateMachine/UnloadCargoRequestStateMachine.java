@@ -5,16 +5,17 @@ import Shared.Message.IMessageListener;
 import Shared.Message.Message;
 import Shared.Message.MessageType;
 import Shared.StateMachine.IStateMachine;
+import Shared.StateMachine.State;
 import Ship.ShipConsole;
 
-public class ShipExitStateMachine implements IStateMachine,IMessageListener {
-
+public class UnloadCargoRequestStateMachine implements IStateMachine, IMessageListener {
+	
 	private boolean _isRunning;
 	private ShipConsole _console;
 	
-	public ShipExitStateMachine(Console console) {
+	public UnloadCargoRequestStateMachine(Console console) {
 		_console = (ShipConsole)console;
-		_console.ship.messageParser.Register(this, MessageType.Exit);
+		_console.ship.messageParser.Register(this, MessageType.UnloadCargo);
 		_isRunning = true;
 	}
 	
@@ -23,12 +24,13 @@ public class ShipExitStateMachine implements IStateMachine,IMessageListener {
 		while (_isRunning) {
 			Thread.sleep(1);	
 		}
+		_console.stateController.ChangeState(State.Ready);
 	}
 
 	@Override
 	public void ListenTo(Message message) {
-		_console.ship.exit();
+		_console.ship.unloadcargo();
+		_console.ship.messageParser.Unregister(this, MessageType.UnloadCargo);
 		_isRunning = false;
-		_console.setIsRunning(false);
 	}
 }

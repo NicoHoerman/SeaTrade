@@ -25,9 +25,9 @@ public enum MessageType {
 	Launched,
 	MoveTo,
 	Moved,
-	LoadCrago,
+	LoadCargo,
 	Loaded,
-	UnloadCrago,
+	UnloadCargo,
 	Unloaded,
 	Reached,
 	Error

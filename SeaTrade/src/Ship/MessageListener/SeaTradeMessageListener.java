@@ -5,6 +5,7 @@ import Shared.Message.Message;
 import Shared.Message.MessageType;
 import Ship.SeaTradeListener;
 import Ship.Ship;
+import sea.Cargo;
 import sea.Position;
 
 public class SeaTradeMessageListener extends Thread implements IMessageListener {
@@ -46,30 +47,36 @@ public class SeaTradeMessageListener extends Thread implements IMessageListener 
 	public void ListenTo(Message message) {
 		switch (message.type) {
 		case Launched:
+			if(message.content.size() == 2)
+				_ship.setShipCost(Integer.parseInt(message.content.get(1)));
 		case Moved:
 			if(message.content.size() == 2) {
-				String[] pos = message.content.get(0).split("\\|");
-				Position position = new Position(Integer.parseInt(pos[1]), Integer.parseInt(pos[2]), _ship.maptoDir(pos[3]));
+				Position position = Position.parse(message.content.get(0));
 				_ship.setPosition(position);
-				_ship.setShipCost(Integer.parseInt(message.content.get(1)));
-				
+				_ship.update(message.content.get(1));
 			}
 			break;
 		case Reached:
-			
+			if(message.content.size() == 1) {
+				_ship.view.OutputData("Reached destination " + _ship.getDestination());
+			}
 			break;
 		case Loaded:
-			
+			if(message.content.size() == 1) {
+				Cargo cargo = Cargo.parse(message.content.get(0));
+				_ship.loadedcargo(cargo);
+			}
 			break;
 		case Unloaded:
-	
+			if(message.content.size() == 1) {
+				_ship.clear(message.content.get(0));
+			}
 			break;
 		case Error:
-			
+			//ToDo
 			break;
 		default:
 			break;
 		}
 	}
-	
 }

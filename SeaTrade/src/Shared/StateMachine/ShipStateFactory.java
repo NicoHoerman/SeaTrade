@@ -1,10 +1,12 @@
 package Shared.StateMachine;
 
 import Shared.Console;
+import Ship.StateMachine.LoadCargoRequestStateMachine;
 import Ship.StateMachine.RecruitRequestStateMachine;
 import Ship.StateMachine.RecruitResultStateMachine;
 import Ship.StateMachine.ShipExitStateMachine;
 import Ship.StateMachine.ShipReadyStateMachine;
+import Ship.StateMachine.UnloadCargoRequestStateMachine;
 
 public class ShipStateFactory implements IStateFactory {
 
@@ -24,6 +26,10 @@ public class ShipStateFactory implements IStateFactory {
 			return new RecruitRequestStateMachine(_console);
 		case RegisterShipResult:
 			return new RecruitResultStateMachine(_console);
+		case LoadCargo:
+			return new LoadCargoRequestStateMachine(_console);
+		case UnloadCargo:
+			return new UnloadCargoRequestStateMachine(_console);
 		case Exit:
 			return new ShipExitStateMachine();
 		case UnknownCommand: 

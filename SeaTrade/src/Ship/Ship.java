@@ -1,26 +1,17 @@
 package Ship;
 
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
 
-import Shared.Response;
 import Shared.Message.MessageParser;
+import View.IView;
 import sea.Cargo;
-import sea.Direction;
 import sea.Position;
 
 public class Ship {
 	
-	//private static boolean IsRunning = false;
-
 	private String shipName;
 	private int shipCost;
 	 
-	private boolean isBusy;
-	private boolean isSunken;
-	
 	private Position position;
 	private Cargo cargo;
 	private boolean hasCargo; 
@@ -40,10 +31,13 @@ public class Ship {
 	private CompanyListener companyListener;
 	private SeaTradeListener seaTradeListener;
 	
-	public Ship() {
+	public IView view;
+	
+	public Ship(IView view) {
 		System.out.println("ship app created");
 		cargo = null;
 		hasCargo = false;
+		this.view = view;
 		
 		messageParser = new MessageParser();
 		Thread messageParserThread = new Thread(messageParser);
@@ -57,40 +51,63 @@ public class Ship {
 		this.companyEndpoint = companyEndpoint;
 		this.shipName = shipName;
 		
-		companyListener = new CompanyListener(companyPort, companyEndpoint, this);
+		companyListener = new CompanyListener(this.companyPort, this.companyEndpoint, this);
 		companyListener.start();
 		
 	}
 	
 	public void connectToSeaTrade() {
-		seaTradeListener = new SeaTradeListener(seaTradePort, companyEndpoint, this);
+		seaTradeListener = new SeaTradeListener(seaTradePort, seaTradeEndpoint, this);
 		seaTradeListener.start();
 		seaTradeOut.println("launch:" + getCompany() + getDestination() + getShipName());
 	}
 	
-	private synchronized void exit() {
-		// TODO Auto-generated method stub
+	public synchronized void exit() {
+		if(seaTradeOut != null)
+			seaTradeOut.println("exit:");
 		
+		if(seaTradeListener != null)
+			seaTradeListener.setRunning(false);
+		
+		if(companyOut != null)
+			companyOut.println("exit:");
+		
+		if(companyListener != null)
+			companyListener.setRunning(false);
+		
+		messageParser.setRunning(false);
 	}
 
-	private synchronized void clear() {
-		// TODO Auto-generated method stub
-		
+	public synchronized void clear(String profit) {
+		companyOut.println("clear:" + profit );
+		view.OutputData("Cargo unloaded. Profit: " + profit);
 	}
 
-	private synchronized void update() {
-		// TODO Auto-generated method stub
-		
+	public synchronized void update(String cost) {
+		companyOut.println("update:"+ cost);
+		view.OutputData("Ship moved. Cost: " + cost +"\n" + position.toString());
 	}
 
-	private synchronized void loadcargo() {
-		// TODO Auto-generated method stub
-		
+	public synchronized void loadcargo() {
+		seaTradeOut.println("loadcargo");
 	}
 
-	private synchronized void moveto(String harbour) {
-		// TODO Auto-generated method stub
+	public synchronized void loadedcargo(Cargo cargo) {
+		setCargo(cargo);
+		hasCargo = true;
+		view.OutputData("Loaded cargo.\n" + cargo.toString());
+	}
+	
+	public synchronized void unloadcargo() {
+		seaTradeOut.println("unloadcargo");
+	}
+	
+	public synchronized void moveto(String harbour) {
+		setDestination(harbour);
+		seaTradeOut.println("moveto:" + harbour);
+		view.OutputData("Ship moves to " + harbour);
 		
+		companyOut.println("accepted:OK");
 	}
 
 	private synchronized void sink(String harbour) {
@@ -145,21 +162,12 @@ public class Ship {
 	public void setPosition(Position position) {
 		this.position = position;
 	}
-	
-	public Direction maptoDir(String dir) {
-		switch (dir) {
-		case "NORTH":
-			return Direction.NORTH;
-		case "EAST":
-			return Direction.EAST;
-		case "SOUTH":
-			return Direction.SOUTH;
-		case "WEST":
-			return Direction.WEST;
-		case "NONE":
-			return Direction.NONE;
-		default:
-			return Direction.NONE;
-		}
+
+	public Cargo getCargo() {
+		return cargo;
+	}
+
+	private void setCargo(Cargo cargo) {
+		this.cargo = cargo;
 	}
 }

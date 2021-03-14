@@ -20,9 +20,9 @@ public class ShipConsole  extends Console{
 	public ShipConsole() {
 		System.out.println("Ship console started...");
 		_isRunning = true;
-		ship = new Ship();
-		stateController = new StateController(this, new ShipStateFactory(this));
 		view = new ConsoleView();
+		ship = new Ship(view);
+		stateController = new StateController(this, new ShipStateFactory(this));
 		
 		try {
 			stateController.ChangeState(State.Ready);

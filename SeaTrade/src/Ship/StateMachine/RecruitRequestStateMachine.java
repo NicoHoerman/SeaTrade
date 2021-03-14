@@ -23,9 +23,7 @@ public class RecruitRequestStateMachine implements IStateMachine, IMessageListen
 	public void Run() throws Exception {
 		while (_isRunning) {
 			Thread.sleep(1);
-			
-		}
-		
+		}	
 	}
 
 	@Override
