@@ -59,7 +59,7 @@ public class Ship {
 	public void connectToSeaTrade() {
 		seaTradeListener = new SeaTradeListener(seaTradePort, seaTradeEndpoint, this);
 		seaTradeListener.start();
-		seaTradeOut.println("launch:" + getCompany() + getDestination() + getShipName());
+		seaTradeOut.println("launch:" + getCompany() +":"+ getDestination() +":"+ getShipName());
 	}
 	
 	public synchronized void exit() {

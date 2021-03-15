@@ -48,7 +48,7 @@ public class RegisterResultStateMachine implements IStateMachine, IMessageListen
 				}
 				break;
 			case Error:
-				_console.view.OutputData("Error:" + message.content.get(0));
+				_console.view.OutputData("Register Error:" + message.content.get(0));
 				break;
 			default:
 				_console.view.OutputData("Error:" + message.type);

@@ -73,7 +73,9 @@ public class SeaTradeMessageListener extends Thread implements IMessageListener 
 			}
 			break;
 		case Error:
-			//ToDo
+			for (String content : message.content) {				
+				_ship.view.OutputData(content + "\n");
+			}
 			break;
 		default:
 			break;

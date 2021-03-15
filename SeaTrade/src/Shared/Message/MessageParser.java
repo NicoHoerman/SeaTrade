@@ -62,6 +62,11 @@ public class MessageParser implements Runnable {
 	
 	public Message parseResponse(String input) {
 		ArrayList<String> content;
+		if(input == null) {
+			content = new ArrayList<String>();
+			content.add(input);
+			return new Message(MessageType.Error, content);
+		}
 		if(input.contains(":")) 
 			content = new ArrayList<String>(Arrays.asList(input.split("[:]")));
 		else {
@@ -147,6 +152,10 @@ public class MessageParser implements Runnable {
 			return MessageType.Exit;
 		case "reached":
 			return MessageType.Reached;
+		case "moved":
+			return MessageType.Moved;
+		case "moveto":
+			return MessageType.MoveTo;
 		default:
 			return MessageType.Unknown;
 		}

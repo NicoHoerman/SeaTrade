@@ -31,7 +31,7 @@ public class ShipStateFactory implements IStateFactory {
 		case UnloadCargo:
 			return new UnloadCargoRequestStateMachine(_console);
 		case Exit:
-			return new ShipExitStateMachine();
+			return new ShipExitStateMachine(_console);
 		case UnknownCommand: 
 		default:
 			throw new Exception("No StateMachine for State" + state);

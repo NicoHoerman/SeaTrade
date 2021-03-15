@@ -40,7 +40,6 @@ public class RecruitResultStateMachine implements IStateMachine, IMessageListene
 			break;
 		case Recruited:
 			if(message.content.size() == 2) {				
-				_console.view.OutputData("Invalid request");
 				String[] company = message.content.get(0).split("\\|");
 				_console.ship.setCompany(company[1]);
 				_console.ship.setDestination(message.content.get(1));
@@ -53,6 +52,7 @@ public class RecruitResultStateMachine implements IStateMachine, IMessageListene
 			}
 			break;
 		default:
+			_console.view.OutputData("Invalid request");
 			break;
 		}
 	}
