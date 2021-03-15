@@ -5,11 +5,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import Company.MessageListener.ShipSessionMessageListener;
-import Shared.IResponseHandler;
 import Shared.ListenerThread;
-import Shared.Response;
 import Shared.Message.Message;
 
+//Listener thread for Ship requests and responses
 public class ShipSession extends ListenerThread{
 
 	public String sessionName;

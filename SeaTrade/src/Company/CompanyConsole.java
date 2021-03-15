@@ -1,11 +1,14 @@
 package Company;
 
-import Company.View.CompanyView;
 import Shared.Console;
-import Shared.StateMachine.*;
+import Shared.StateMachine.CompanyStateFactory;
+import Shared.StateMachine.IStateMachine;
+import Shared.StateMachine.State;
+import Shared.StateMachine.StateController;
 import View.ConsoleView;
 import View.IView;;
 
+//Startup of the company app
 public class CompanyConsole extends Console {
 	
 	private boolean _isRunning;

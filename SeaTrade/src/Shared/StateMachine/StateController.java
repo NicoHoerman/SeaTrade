@@ -2,6 +2,7 @@ package Shared.StateMachine;
 
 import Shared.Console;
 
+//Allows to change the state of the given console
 public class StateController {
 
 	private IStateFactory _stateFactory;

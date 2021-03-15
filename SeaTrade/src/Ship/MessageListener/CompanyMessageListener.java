@@ -6,6 +6,7 @@ import Shared.Message.MessageType;
 import Ship.CompanyListener;
 import Ship.Ship;
 
+//Processes Company related message from the message queue
 public class CompanyMessageListener extends Thread implements IMessageListener {
 
 	private Ship _ship;

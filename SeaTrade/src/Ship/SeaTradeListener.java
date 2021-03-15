@@ -7,6 +7,7 @@ import Shared.ListenerThread;
 import Shared.Message.Message;
 import Ship.MessageListener.SeaTradeMessageListener;
 
+//Listener thread for responses from the SeaTrade server
 public class SeaTradeListener extends ListenerThread {
 
 	private Ship _ship;

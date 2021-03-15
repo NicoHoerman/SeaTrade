@@ -7,6 +7,7 @@ import Shared.ListenerThread;
 import Shared.Message.Message;
 import Ship.MessageListener.CompanyMessageListener;
 
+//Listener thread for responses from the Company server
 public class CompanyListener extends ListenerThread {
 	
 	private Ship ship;

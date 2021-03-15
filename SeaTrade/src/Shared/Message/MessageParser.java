@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+//Parses request, responses and inputs to messages.
+//Holds the message queue and invokes registered messageListeners
 public class MessageParser implements Runnable {
 
 	private boolean _isRunning;
@@ -22,6 +24,7 @@ public class MessageParser implements Runnable {
 
 	public MessageParser() {
 		_isRunning = true;
+		//BlockingQueue with FirstInFirstOut activated
 		MessageQueue = new ArrayBlockingQueue<Message>(500,true);
 		MessageListeners = new HashMap<MessageType, ArrayList<IMessageListener>>();
 	}
@@ -45,7 +48,6 @@ public class MessageParser implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	
 	public Message parseInput(String input) {
@@ -79,6 +81,7 @@ public class MessageParser implements Runnable {
 		return new Message(msgType, content);
 	}
 	
+	//Registers a MessageListener to a specific MessageType   
 	public void Register(IMessageListener listener, MessageType messageType) {
 		if(MessageListeners.containsKey(messageType)) {
 			ArrayList<IMessageListener> currentListeners = MessageListeners.get(messageType);
@@ -92,6 +95,7 @@ public class MessageParser implements Runnable {
 		}
 	}
 	
+	//Unregisters a MessageListener
 	public void Unregister(IMessageListener listener, MessageType messageType) {
 		ArrayList<IMessageListener> currentListeners = MessageListeners.get(messageType);
 		currentListeners.remove(listener);

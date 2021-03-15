@@ -8,6 +8,7 @@ import Shared.StateMachine.StateController;
 import View.ConsoleView;
 import View.IView;
 
+//Startup of the ship app
 public class ShipConsole  extends Console{
 	
 	private boolean _isRunning;

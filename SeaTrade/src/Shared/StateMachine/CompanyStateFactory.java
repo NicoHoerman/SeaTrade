@@ -12,6 +12,7 @@ import Shared.StateMachine.Common.CompanyReadyStateMachine;
 import Shared.StateMachine.Common.CompanyRequestStateMachine;
 import Shared.StateMachine.Common.ExitStateMachine;
 
+//Factory for all states a company can be in
 public class CompanyStateFactory implements IStateFactory {
 	
 	private Console _console;

@@ -6,6 +6,7 @@ import Shared.Message.IMessageListener;
 import Shared.Message.Message;
 import Shared.Message.MessageType;
 
+//Processes ship relevant message from the message queue
 public class ShipSessionMessageListener extends Thread implements IMessageListener{
 
 	private ShipSession _shipSession;

@@ -8,6 +8,7 @@ import Ship.Ship;
 import sea.Cargo;
 import sea.Position;
 
+//Processes SeaTrade related message from the message queue
 public class SeaTradeMessageListener extends Thread implements IMessageListener {
 
 	private Ship _ship;

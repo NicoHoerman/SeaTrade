@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import Shared.ListenerThread;
 import Shared.Message.Message;
 
+//Listener thread for responses from the SeaTrade server
 public class SeaTradeListener extends ListenerThread {
 
 	private Company _company;

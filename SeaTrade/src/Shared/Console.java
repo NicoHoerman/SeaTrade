@@ -1,6 +1,5 @@
 package Shared;
 
-
 import Shared.StateMachine.IStateMachine;
 import Shared.StateMachine.StateController;
 

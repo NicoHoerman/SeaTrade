@@ -14,9 +14,9 @@ import Shared.Message.MessageParser;
 import View.IView;
 import sea.Cargo;
 
+//Logic of the company app
 public class Company implements Runnable {
 
-	//private static boolean IsRunning = false;
 	private String companyName;
 	private long deposit;
 	
@@ -46,7 +46,8 @@ public class Company implements Runnable {
 		Thread messageParserThread = new Thread(messageParser);
 		messageParserThread.start();
 	}
-	
+
+	//Listens for new ships
 	@Override
 	public void run() {
 		try {
@@ -70,7 +71,6 @@ public class Company implements Runnable {
 	}
 	
 	public synchronized void registerCompany(String companyName, int seaTradeServerPort, String seaTradeEndpoint, int companyServerPort) {
-		
 		this.companyName = companyName;
 		this.seaTradeServerPort = seaTradeServerPort;
 		this.companyServerPort = companyServerPort;
@@ -82,7 +82,6 @@ public class Company implements Runnable {
 		} catch (IllegalStateException e) {
 			seaTradeListener.interrupt();
 		}
-		
 	}
 	
 	public synchronized void getCargoInfo() {

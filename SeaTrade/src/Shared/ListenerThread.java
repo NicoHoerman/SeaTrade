@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import Company.Company;
-
 public abstract class ListenerThread extends Thread {
 
 	protected boolean isRunning;
@@ -50,5 +48,4 @@ public abstract class ListenerThread extends Thread {
 	public void setRunning(boolean isRunning) {
 		this.isRunning = isRunning;
 	}
-
 }

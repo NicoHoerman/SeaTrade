@@ -7,6 +7,7 @@ import View.IView;
 import sea.Cargo;
 import sea.Position;
 
+//Logic of the company app
 public class Ship {
 	
 	private String shipName;

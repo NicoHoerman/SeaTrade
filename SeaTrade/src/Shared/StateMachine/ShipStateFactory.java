@@ -8,6 +8,7 @@ import Ship.StateMachine.ShipExitStateMachine;
 import Ship.StateMachine.ShipReadyStateMachine;
 import Ship.StateMachine.UnloadCargoRequestStateMachine;
 
+//Factory for all states a company can be in
 public class ShipStateFactory implements IStateFactory {
 
 	private Console _console;
