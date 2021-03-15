@@ -13,7 +13,11 @@ public class Cargo {
 	private int value;				// Wert der Ladung
 	
 	public Cargo(String source, String destination, int value) {
-		this( (int)(Math.random()*1000)+1, source, destination, value);
+		super();
+		this.source = source;
+		this.destination = destination;
+		this.value = value;
+		this.id = (int)(Math.random()*1000)+1;
 	}
 	
 	public Cargo(int id, String source, String destination, int value) {
@@ -21,7 +25,7 @@ public class Cargo {
 		this.source = source;
 		this.destination = destination;
 		this.value = value;
-		this.id = id;
+		this.id = (int)(Math.random()*1000)+1;
 	}
 	
 	public int getId() {
