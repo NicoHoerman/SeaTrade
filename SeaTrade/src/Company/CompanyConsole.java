@@ -18,9 +18,9 @@ public class CompanyConsole extends Console {
 	public CompanyConsole() {
 		System.out.println("Company console started...");
 		_isRunning = true;
-		company = new Company();
-		stateController = new StateController(this, new CompanyStateFactory(this));
 		view = new ConsoleView();
+		company = new Company(view);
+		stateController = new StateController(this, new CompanyStateFactory(this));
 		
 		try {
 			stateController.ChangeState(State.Ready);

@@ -11,6 +11,7 @@ import java.util.List;
 
 import Shared.Harbour;
 import Shared.Message.MessageParser;
+import View.IView;
 import sea.Cargo;
 
 public class Company implements Runnable {
@@ -32,11 +33,14 @@ public class Company implements Runnable {
 	public List<Harbour> harbours;
 	public List<Cargo> cargos;
 	
-	public Company() {
+	public IView view;
+	
+	public Company(IView view) {
 		System.out.println("company app created");
 		
 		shipsSessions = Collections.synchronizedList(new ArrayList<ShipSession>());
 		harbours = new ArrayList<Harbour>();
+		this.view = view; 
 		
 		messageParser = new MessageParser();
 		Thread messageParserThread = new Thread(messageParser);

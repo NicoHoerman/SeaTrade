@@ -16,6 +16,10 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 		_company = company; 
 		_shipSession = shipSession;
 		_company.messageParser.Register(this, MessageType.RegisterShip);
+		_company.messageParser.Register(this, MessageType.Accepted);
+		_company.messageParser.Register(this, MessageType.Clear);
+		_company.messageParser.Register(this, MessageType.Update);
+		_company.messageParser.Register(this, MessageType.Error);
 	}
 	
 	@Override
@@ -29,11 +33,14 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 			}
 		}
 		_company.messageParser.Unregister(this, MessageType.RegisterShip);
+		_company.messageParser.Unregister(this, MessageType.Accepted);
+		_company.messageParser.Unregister(this, MessageType.Clear);
+		_company.messageParser.Unregister(this, MessageType.Update);
+		_company.messageParser.Unregister(this, MessageType.Error);
 	}
 	
 	@Override
 	public void ListenTo(Message message) {
-		System.out.println("received msg from ship");
 		if(_shipSession.isRegistered == false && message.type != MessageType.RegisterShip) {
 			_company.shipsSessions.remove(_shipSession);
 			_shipSession.setRunning(false);
@@ -48,10 +55,11 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 				_company.shipsSessions.add(_shipSession);
 				String startHarbour = _company.harbours.isEmpty() ? "halifax" : _company.harbours.get(0).get_name() ;
 				_shipSession._shipOut.println("recruited:COMPANY|"+_company.getCompanyName()+"|"+_company.getDeposit()+":"+startHarbour);
+				_shipSession.isRegistered = true;
 			}
 			break;
 		case Accepted:
-			//ToDo Nothing
+			_company.view.OutputData("Ship: " + _shipSession.sessionName + " accepted contract.");
 			break;
 		case Clear:
 			if(message.content.size() == 1) {				
@@ -74,7 +82,11 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 				}
 				_shipSession._shipOut.println("update:OK");
 			break;
-			}	
+			}
+		case Error:
+			for (String content : message.content) {				
+				_company.view.OutputData(content + "\n");
+			}
 		default:
 			break;
 		}	

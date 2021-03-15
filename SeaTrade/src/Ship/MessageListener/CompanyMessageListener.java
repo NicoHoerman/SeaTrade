@@ -55,6 +55,9 @@ public class CompanyMessageListener extends Thread implements IMessageListener {
 			_ship.exit();
 			break;
 		case Error:
+			for (String content : message.content) {				
+				_ship.view.OutputData(content + "\n");
+			}
 			break;
 		default:
 			break;
