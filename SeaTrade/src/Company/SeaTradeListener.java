@@ -31,7 +31,9 @@ public class SeaTradeListener extends ListenerThread {
 				Message msg = _company.messageParser.parseResponse(response);
 				_company.messageParser.MessageQueue.add(msg);
 			} catch (IOException e) {
-				e.printStackTrace();
+				if(isRunning){
+					e.printStackTrace();
+				}
 			}	
 		}
 	}

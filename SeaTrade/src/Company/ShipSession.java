@@ -19,7 +19,7 @@ public class ShipSession extends ListenerThread{
 
 	public ShipSession(String sessionName, Socket socket, Company company) {
 		super(socket);
-		setRunning(true);
+		
 		this.sessionName = sessionName;
 		_company = company;
 		_messageListener = new ShipSessionMessageListener(_company, this);

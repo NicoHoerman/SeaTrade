@@ -44,7 +44,7 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 	public void ListenTo(Message message) {
 		if(_shipSession.isRegistered == false && message.type != MessageType.RegisterShip) {
 			_company.shipsSessions.remove(_shipSession);
-			_shipSession.setRunning(false);
+			_shipSession.shutdown();
 			return;
 		}
 		

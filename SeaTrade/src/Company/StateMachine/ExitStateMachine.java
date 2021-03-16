@@ -27,7 +27,7 @@ public class ExitStateMachine implements IStateMachine, IMessageListener {
 
 	@Override
 	public void ListenTo(Message message) {
-		_console.company.exit();
+		_console.company.shutdown();
 		_isRunning = false;
 		_console.setIsRunning(false);
 	}

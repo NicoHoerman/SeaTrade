@@ -36,8 +36,7 @@ public class RegisterRequestStateMachine  implements IStateMachine, IMessageList
 		}
 		else {		
 			_console.company.registerCompany(message.content.get(0), Integer.parseInt(message.content.get(1)), message.content.get(2), Integer.parseInt(message.content.get(3)));
-			Thread shipListener = new Thread(_console.company);
-			shipListener.start();
+			_console.company.startCompanyServer();
 			_console.stateController.ChangeState(State.RegisterResult);
 		}
 		

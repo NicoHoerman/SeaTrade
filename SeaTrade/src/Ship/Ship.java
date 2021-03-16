@@ -68,13 +68,13 @@ public class Ship {
 			seaTradeOut.println("exit:");
 		
 		if(seaTradeListener != null)
-			seaTradeListener.setRunning(false);
+			seaTradeListener.shutdown();;
 		
 		if(companyOut != null)
 			companyOut.println("exit:");
 		
 		if(companyListener != null)
-			companyListener.setRunning(false);
+			companyListener.shutdown();
 		
 		messageParser.setRunning(false);
 	}

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import Company.MessageListener.NewCargoMessageListener;
 import Shared.Harbour;
 import Shared.Message.MessageParser;
 import View.IView;
@@ -17,6 +18,7 @@ import sea.Cargo;
 //Logic of the company app
 public class Company implements Runnable {
 
+	private boolean isRunning;
 	private String companyName;
 	private long deposit;
 	
@@ -29,6 +31,8 @@ public class Company implements Runnable {
 	
 	public List<ShipSession> shipsSessions;
 	private SeaTradeListener seaTradeListener;
+	private NewCargoMessageListener newCargoML; 
+	private Thread companyServer; 
 	
 	public List<Harbour> harbours;
 	public List<Cargo> cargos;
@@ -45,17 +49,21 @@ public class Company implements Runnable {
 		messageParser = new MessageParser();
 		Thread messageParserThread = new Thread(messageParser);
 		messageParserThread.start();
+		
+		newCargoML	= new NewCargoMessageListener(this);
+		companyServer = new Thread(this);
 	}
 
 	//Listens for new ships
 	@Override
 	public void run() {
+		isRunning = true;
 		try {
 			ssock = new ServerSocket(companyServerPort);
 			ssock.setSoTimeout(2000);
 			int counter = 1;
 			String shipname = "Ship" + counter;
-			while (!Thread.interrupted()) {
+			while (isRunning) {
 				try {
 					Socket client = ssock.accept();
 					ShipSession ship = new ShipSession(shipname, client, this);
@@ -66,6 +74,7 @@ public class Company implements Runnable {
 				}
 			}
 		} catch (IOException e) {
+			if(isRunning)
 			e.printStackTrace();
 		}
 	}
@@ -122,7 +131,7 @@ public class Company implements Runnable {
 	public int getClientPort() {
 		return seaTradeServerPort;
 	}
-	
+		
 	public synchronized boolean reduceDeposit(int cost){
 		if(cost > deposit) {
 			return false;
@@ -135,7 +144,18 @@ public class Company implements Runnable {
 		deposit += profit;
 	}
 
-	public synchronized void exit() {
+	public synchronized void shutdown() {
+		try {
+			isRunning = false;
+			companyServer.join();
+			ssock.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		for (ShipSession ship : shipsSessions) {
 			ship._shipOut.println("exit:");
 		}
@@ -143,13 +163,23 @@ public class Company implements Runnable {
 			seaTradeOut.println("exit:");
 		
 		if(seaTradeListener != null)
-			seaTradeListener.setRunning(false);
+			seaTradeListener.shutdown();
 		
 		messageParser.setRunning(false);
+		
+		newCargoML.shutdown();
 	}
 
 	public synchronized void instruct(String harbour, int shipIndex) {
 		ShipSession ship = shipsSessions.get(shipIndex);
 		ship._shipOut.println("instruct:" + harbour);
+	}
+	
+	public void startCargoListener() {
+		newCargoML.start();
+	}
+	
+	public void startCompanyServer() {
+		companyServer.start();	
 	}
 }

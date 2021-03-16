@@ -23,7 +23,7 @@ public class NewCargoMessageListener extends Thread implements IMessageListener{
 	public void run(){
 		while(_isRunning) {
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(5);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -41,4 +41,9 @@ public class NewCargoMessageListener extends Thread implements IMessageListener{
 			_company.cargos.add(c);
 		}	
 	}
+	
+	public void shutdown() {
+		_isRunning = false;
+	}
+	
 }

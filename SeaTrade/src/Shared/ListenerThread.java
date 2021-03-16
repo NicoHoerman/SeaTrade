@@ -31,7 +31,7 @@ public abstract class ListenerThread extends Thread {
 		try {
 			this.socket = socket;
 			this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			
+			isRunning = true;
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -45,7 +45,13 @@ public abstract class ListenerThread extends Thread {
 		return isRunning;
 	}
 
-	public void setRunning(boolean isRunning) {
-		this.isRunning = isRunning;
+	public void shutdown() {
+		isRunning = false;
+		try {
+			socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
