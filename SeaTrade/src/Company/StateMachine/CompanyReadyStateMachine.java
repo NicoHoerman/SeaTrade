@@ -1,4 +1,4 @@
-package Shared.StateMachine.Common;
+package Company.StateMachine;
 
 import java.util.Scanner;
 

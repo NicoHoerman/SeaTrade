@@ -1,4 +1,4 @@
-package Shared.StateMachine.Common;
+package Company.StateMachine;
 
 import Company.CompanyConsole;
 import Shared.Console;
@@ -8,14 +8,14 @@ import Shared.Message.MessageType;
 import Shared.StateMachine.IStateMachine;
 import Shared.StateMachine.State;
 
-public class HarbourRequestStateMachine implements IStateMachine, IMessageListener {
+public class CargoRequestStateMachine implements IStateMachine, IMessageListener {
 
 	private boolean _isRunning;
 	private CompanyConsole _console;
 	
-	public HarbourRequestStateMachine(Console console) {
+	public CargoRequestStateMachine(Console console) {
 		_console = (CompanyConsole)console;
-		_console.company.messageParser.Register(this, MessageType.GetHarbours);
+		_console.company.messageParser.Register(this, MessageType.GetCargos);
 		
 		_isRunning = true;
 	}
@@ -25,17 +25,17 @@ public class HarbourRequestStateMachine implements IStateMachine, IMessageListen
 		while(_isRunning) {
 			Thread.sleep(1);
 		}
-		_console.stateController.ChangeState(State.HarbourResult);
+		_console.stateController.ChangeState(State.CargoResult);
 	}
 
 	@Override
 	public void ListenTo(Message message) {
-		if(message.type != MessageType.GetHarbours)
+		if(message.type != MessageType.GetCargos)
 			_console.view.OutputData("Invalid request");
 			
-		_console.company.getHarbourInfo();
+		_console.company.getCargoInfo();
 		
-		_console.company.messageParser.Unregister(this, MessageType.GetHarbours);
+		_console.company.messageParser.Unregister(this, MessageType.GetCargos);
 		_isRunning = false;
 	}
 

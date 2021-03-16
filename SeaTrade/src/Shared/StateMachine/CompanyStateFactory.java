@@ -1,16 +1,16 @@
 package Shared.StateMachine;
 
-import Shared.StateMachine.Common.HarbourRequestStateMachine;
-import Shared.StateMachine.Common.HarbourResultStateMachine;
-import Shared.StateMachine.Common.InstructRequestStateMachine;
-import Shared.StateMachine.Common.RegisterRequestStateMachine;
-import Shared.StateMachine.Common.RegisterResultStateMachine;
+import Company.StateMachine.CargoRequestStateMachine;
+import Company.StateMachine.CargoResultStateMachine;
+import Company.StateMachine.CompanyReadyStateMachine;
+import Company.StateMachine.CompanyRequestStateMachine;
+import Company.StateMachine.ExitStateMachine;
+import Company.StateMachine.HarbourRequestStateMachine;
+import Company.StateMachine.HarbourResultStateMachine;
+import Company.StateMachine.InstructRequestStateMachine;
+import Company.StateMachine.RegisterRequestStateMachine;
+import Company.StateMachine.RegisterResultStateMachine;
 import Shared.Console;
-import Shared.StateMachine.Common.CargoRequestStateMachine;
-import Shared.StateMachine.Common.CargoResultStateMachine;
-import Shared.StateMachine.Common.CompanyReadyStateMachine;
-import Shared.StateMachine.Common.CompanyRequestStateMachine;
-import Shared.StateMachine.Common.ExitStateMachine;
 
 //Factory for all states a company can be in
 public class CompanyStateFactory implements IStateFactory {
