@@ -21,6 +21,7 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 		_company.messageParser.Register(this, MessageType.Clear);
 		_company.messageParser.Register(this, MessageType.Update);
 		_company.messageParser.Register(this, MessageType.Error);
+		_company.messageParser.Register(this, MessageType.Exit);
 	}
 	
 	@Override
@@ -38,13 +39,15 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 		_company.messageParser.Unregister(this, MessageType.Clear);
 		_company.messageParser.Unregister(this, MessageType.Update);
 		_company.messageParser.Unregister(this, MessageType.Error);
+		_company.messageParser.Unregister(this, MessageType.Exit);
 	}
 	
 	@Override
 	public void ListenTo(Message message) {
-		if(_shipSession.isRegistered == false && message.type != MessageType.RegisterShip) {
+		if((_shipSession.isRegistered == false && message.type != MessageType.RegisterShip) || message.type== MessageType.Error) {
 			_company.shipsSessions.remove(_shipSession);
 			_shipSession.shutdown();
+			_company.view.OutputData("Removed ship " + _shipSession.getName());
 			return;
 		}
 		

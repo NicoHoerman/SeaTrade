@@ -62,7 +62,7 @@ public class Company implements Runnable {
 			ssock = new ServerSocket(companyServerPort);
 			ssock.setSoTimeout(2000);
 			int counter = 1;
-			String shipname = "Ship" + counter;
+			String shipname = "UnknownShip" + counter;
 			while (isRunning) {
 				try {
 					Socket client = ssock.accept();

@@ -35,7 +35,8 @@ public class CompanyListener extends ListenerThread {
 			Message msg = ship.messageParser.parseResponse(response);
 			ship.messageParser.MessageQueue.add(msg);
 			} catch (IOException e) {
-				e.printStackTrace();
+				if(isRunning)
+					e.printStackTrace();
 			}
 		}
 	}
