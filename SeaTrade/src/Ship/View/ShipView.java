@@ -1,4 +1,4 @@
-package Company.View;
+package Ship.View;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -15,24 +15,24 @@ import java.awt.event.WindowListener;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import Shared.Message.Message;
 import View.BasicGraphicalView;
 
-public class CompanyView extends BasicGraphicalView {
+public class ShipView extends BasicGraphicalView {
 
 	public BlockingQueue<String> MessageQueue;
 	public TextArea output;
 	public TextField input;
 	public Button send;
 	
-	public CompanyView() {
+	public ShipView() {
 		super();
 		MessageQueue = new ArrayBlockingQueue<String>(500,true);
 		buildFrame();
 	}
 	
 	public void buildFrame() {
-		Frame window = new Frame("Company App");
+		
+		Frame window = new Frame("Ship App");
 		window.setSize(800, 500);
 		 
 		Panel inputPanel = new Panel();
@@ -48,7 +48,7 @@ public class CompanyView extends BasicGraphicalView {
 		
 		input = new TextField(80);
 		 
-		CompanyListener companyListener = new CompanyListener();
+		ShipListener companyListener = new ShipListener();
 		send.addActionListener(companyListener);
 		input.addActionListener(companyListener);
 		
@@ -63,10 +63,10 @@ public class CompanyView extends BasicGraphicalView {
 		window.setVisible(true);
 		
 	}
-
+	
 	@Override
 	public void OutputData(String data) {
-		output.append(data + "\n" );
+		output.append(data + "\n");
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class CompanyView extends BasicGraphicalView {
 			return MessageQueue.take();
 	}
 
-	class CompanyListener implements ActionListener, WindowListener {
+	class ShipListener implements ActionListener, WindowListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {

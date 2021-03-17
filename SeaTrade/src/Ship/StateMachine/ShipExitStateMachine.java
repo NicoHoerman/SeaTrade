@@ -30,5 +30,6 @@ public class ShipExitStateMachine implements IStateMachine,IMessageListener {
 		_console.ship.exit();
 		_isRunning = false;
 		_console.setIsRunning(false);
+		_console.view.shutdown();
 	}
 }

@@ -46,6 +46,7 @@ public class HarbourResultStateMachine implements IStateMachine, IMessageListene
 				_console.company.messageParser.Unregister(this, MessageType.Harbour);
 				_console.company.messageParser.Unregister(this, MessageType.EndInfo);
 				_isRunning = false;
+				break ;
 			default:
 				_console.view.OutputData("Invalid harbour");
 				break;

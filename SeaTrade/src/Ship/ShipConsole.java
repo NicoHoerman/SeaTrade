@@ -5,6 +5,7 @@ import Shared.StateMachine.IStateMachine;
 import Shared.StateMachine.ShipStateFactory;
 import Shared.StateMachine.State;
 import Shared.StateMachine.StateController;
+import Ship.View.ShipView;
 import View.ConsoleView;
 import View.IView;
 
@@ -19,9 +20,9 @@ public class ShipConsole  extends Console{
 	public IView view; 
 
 	public ShipConsole() {
-		System.out.println("Ship console started...");
 		_isRunning = true;
-		view = new ConsoleView();
+		view = new ShipView();
+		view.OutputData("Ship console started...");
 		ship = new Ship(view);
 		stateController = new StateController(this, new ShipStateFactory(this));
 		

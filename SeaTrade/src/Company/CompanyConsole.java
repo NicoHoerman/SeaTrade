@@ -1,5 +1,6 @@
 package Company;
 
+import Company.View.CompanyView;
 import Shared.Console;
 import Shared.StateMachine.CompanyStateFactory;
 import Shared.StateMachine.IStateMachine;
@@ -19,9 +20,9 @@ public class CompanyConsole extends Console {
 	public IView view; 
 
 	public CompanyConsole() {
-		System.out.println("Company console started...");
 		_isRunning = true;
-		view = new ConsoleView();
+		view = new CompanyView();
+		view.OutputData("Company console started...");
 		company = new Company(view);
 		stateController = new StateController(this, new CompanyStateFactory(this));
 		

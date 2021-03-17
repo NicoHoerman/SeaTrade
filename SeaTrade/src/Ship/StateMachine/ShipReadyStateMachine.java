@@ -28,9 +28,8 @@ public class ShipReadyStateMachine implements IStateMachine {
 	public void Run() {
 		_console.view.OutputData("Warten auf Eingabe");
 		while(_isRunning) {
-			do {
-				String input = in.nextLine();				
 				try{
+					String input = _console.view.nextInput();
 					processInput(input);
 					_isRunning = false;
 					break;
@@ -39,10 +38,7 @@ public class ShipReadyStateMachine implements IStateMachine {
 					_console.view.OutputData("Invalid input Error: " + e.getMessage());
 				}
 				_console.view.OutputData("Warten auf Eingabe");
-			}
-			while(in.hasNextLine());
 		}
-		//in.close();
 	}
 		
 	private synchronized void processInput(String input) throws Exception {

@@ -40,11 +40,11 @@ public class Company implements Runnable {
 	public IView view;
 	
 	public Company(IView view) {
-		System.out.println("company app created");
 		
 		shipsSessions = Collections.synchronizedList(new ArrayList<ShipSession>());
 		harbours = new ArrayList<Harbour>();
 		this.view = view; 
+		view.OutputData("company app created");
 		
 		messageParser = new MessageParser();
 		Thread messageParserThread = new Thread(messageParser);
@@ -146,9 +146,11 @@ public class Company implements Runnable {
 
 	public synchronized void shutdown() {
 		try {
-			isRunning = false;
-			companyServer.join();
-			ssock.close();
+			if(isRunning) {
+				isRunning = false;
+				companyServer.join();
+				ssock.close();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
@@ -165,7 +167,7 @@ public class Company implements Runnable {
 		if(seaTradeListener != null)
 			seaTradeListener.shutdown();
 		
-		messageParser.setRunning(false);
+		messageParser.shutdown();
 		
 		newCargoML.shutdown();
 	}

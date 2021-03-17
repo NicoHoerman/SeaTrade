@@ -13,7 +13,6 @@ import Shared.StateMachine.State;
 public class CompanyReadyStateMachine implements IStateMachine  {
 
 	private boolean _isRunning;
-	private Scanner in;
 	private CompanyConsole _console;
 	private MessageParser _parser;
 	
@@ -21,16 +20,15 @@ public class CompanyReadyStateMachine implements IStateMachine  {
 		_isRunning = true;
 		_console = (CompanyConsole) console;
 		_parser = _console.company.messageParser;
-		in = new Scanner(System.in);
+		
 	}
 	
 	@Override
 	public void Run() {
 		_console.view.OutputData("Warten auf Eingabe");
 		while(_isRunning) {
-			do {
-				String input = in.nextLine();				
 				try{
+					String input = _console.view.nextInput();
 					processInput(input);
 					_isRunning = false;
 					break;
@@ -39,10 +37,7 @@ public class CompanyReadyStateMachine implements IStateMachine  {
 					_console.view.OutputData("Invalid input Error: " + e.getMessage());
 				}
 				_console.view.OutputData("Warten auf Eingabe");
-			}
-			while(in.hasNextLine());
 		}
-		//in.close();
 	}
 	
 	private synchronized void processInput(String input) throws Exception {

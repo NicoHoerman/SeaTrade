@@ -18,8 +18,8 @@ public class MessageParser implements Runnable {
 		return _isRunning;
 	}
 
-	public void setRunning(boolean _isRunning) {
-		this._isRunning = _isRunning;
+	public void shutdown() {
+		this._isRunning = false;
 	}
 
 	public MessageParser() {

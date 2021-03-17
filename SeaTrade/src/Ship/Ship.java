@@ -35,10 +35,10 @@ public class Ship {
 	public IView view;
 	
 	public Ship(IView view) {
-		System.out.println("ship app created");
 		cargo = null;
 		hasCargo = false;
 		this.view = view;
+		view.OutputData("ship app created");
 		
 		messageParser = new MessageParser();
 		Thread messageParserThread = new Thread(messageParser);
@@ -76,7 +76,7 @@ public class Ship {
 		if(companyListener != null)
 			companyListener.shutdown();
 		
-		messageParser.setRunning(false);
+		messageParser.shutdown();
 	}
 
 	public synchronized void clear(String profit) {
