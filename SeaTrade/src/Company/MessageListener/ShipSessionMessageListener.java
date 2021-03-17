@@ -54,7 +54,6 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 		switch (message.type) {
 		case RegisterShip:
 			if(message.content.size() == 1) {
-				_company.shipsSessions.remove(_shipSession);
 				_shipSession.sessionName = message.content.get(0);
 				_company.shipsSessions.add(_shipSession);
 				String startHarbour = _company.harbours.isEmpty() ? "halifax" : _company.harbours.get(0).get_name() ;

@@ -61,15 +61,11 @@ public class Company implements Runnable {
 		try {
 			ssock = new ServerSocket(companyServerPort);
 			ssock.setSoTimeout(2000);
-			int counter = 1;
-			String shipname = "UnknownShip" + counter;
 			while (isRunning) {
 				try {
 					Socket client = ssock.accept();
-					ShipSession ship = new ShipSession(shipname, client, this);
+					ShipSession ship = new ShipSession(client, this);
 					ship.start();
-					shipsSessions.add(ship);
-					counter++;
 				} catch (SocketTimeoutException e) {
 				}
 			}

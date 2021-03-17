@@ -17,10 +17,9 @@ public class ShipSession extends ListenerThread{
 	public PrintWriter _shipOut; 
 	private ShipSessionMessageListener _messageListener;
 
-	public ShipSession(String sessionName, Socket socket, Company company) {
+	public ShipSession(Socket socket, Company company) {
 		super(socket);
-		
-		this.sessionName = sessionName;
+		sessionName = "UnregisteredConncetion";
 		_company = company;
 		_messageListener = new ShipSessionMessageListener(_company, this);
 		_messageListener.start();
