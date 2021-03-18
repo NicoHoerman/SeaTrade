@@ -34,18 +34,19 @@ public class CompanyReadyStateMachine implements IStateMachine  {
 					break;
 				}
 				catch (Exception e) {
-					_console.view.OutputData("Invalid input Error: " + e.getMessage());
+					_console.view.OutputData("Invalid input. Error: " + e.getMessage());
 				}
-				_console.view.OutputData("Warten auf Eingabe");
+				_console.view.OutputData("\n\nWarten auf Eingabe");
 		}
 	}
 	
 	private synchronized void processInput(String input) throws Exception {
 		Message msg = _parser.parseInput(input);
 		if(msg.type == MessageType.Unknown)
-			throw new Exception("ToDo");
+			throw new Exception("Unknown command: " + input);
 		
 		_console.company.messageParser.MessageQueue.add(msg);
+		_console.view.OutputData(input);
 		switch (msg.type) {
 		case GetCompany:
 			_console.stateController.ChangeState(State.GetCompany);

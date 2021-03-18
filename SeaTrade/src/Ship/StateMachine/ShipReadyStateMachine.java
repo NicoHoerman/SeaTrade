@@ -44,9 +44,10 @@ public class ShipReadyStateMachine implements IStateMachine {
 	private synchronized void processInput(String input) throws Exception {
 		Message msg = _parser.parseInput(input);
 		if(msg.type == MessageType.Unknown)
-			throw new Exception("ToDo");
+			throw new Exception("Unknown command: " + input);
 		
 		_console.ship.messageParser.MessageQueue.add(msg);
+		_console.view.OutputData(input);
 		switch (msg.type) {
 		case RegisterShip:
 			_console.stateController.ChangeState(State.RegisterShipRequest);

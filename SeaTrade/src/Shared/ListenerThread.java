@@ -3,6 +3,7 @@ package Shared;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -13,11 +14,13 @@ public abstract class ListenerThread extends Thread {
 	protected String response;
 	protected BufferedReader in;
 	
-	public ListenerThread(int port, String socketName) {
+	public ListenerThread(int port, String socketName) throws ConnectException {
 		try {
 			socket = new Socket(socketName, port);
 			this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
+		}catch (ConnectException e){
+			throw e;
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,6 +1,7 @@
 package Ship;
 
 import java.io.PrintWriter;
+import java.net.ConnectException;
 
 import Shared.Message.MessageParser;
 import View.IView;
@@ -52,13 +53,22 @@ public class Ship {
 		this.companyEndpoint = companyEndpoint;
 		this.shipName = shipName;
 		
-		companyListener = new CompanyListener(this.companyPort, this.companyEndpoint, this);
+		try {
+			companyListener = new CompanyListener(this.companyPort, this.companyEndpoint, this);
+		} catch (ConnectException e) {
+			view.OutputData("Error: Conncetion refused");
+			return;
+		}
 		companyListener.start();
 		
 	}
 	
 	public void connectToSeaTrade() {
-		seaTradeListener = new SeaTradeListener(seaTradePort, seaTradeEndpoint, this);
+		try {
+			seaTradeListener = new SeaTradeListener(seaTradePort, seaTradeEndpoint, this);
+		} catch (ConnectException e) {
+			view.OutputData("Error: Conncetion refused");
+		}
 		seaTradeListener.start();
 		seaTradeOut.println("launch:" + getCompany() +":"+ getDestination() +":"+ getShipName());
 	}

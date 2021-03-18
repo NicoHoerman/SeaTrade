@@ -2,6 +2,7 @@ package Ship;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 
 import Shared.ListenerThread;
 import Shared.Message.Message;
@@ -13,7 +14,7 @@ public class SeaTradeListener extends ListenerThread {
 	private Ship _ship;
 	private SeaTradeMessageListener _messageListener;
 	
-	public SeaTradeListener(int port, String socketName, Ship ship) {
+	public SeaTradeListener(int port, String socketName, Ship ship) throws ConnectException {
 		super(port, socketName);
 		_ship = ship;
 		try {
