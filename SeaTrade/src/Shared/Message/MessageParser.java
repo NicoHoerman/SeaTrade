@@ -32,9 +32,11 @@ public class MessageParser implements Runnable {
 	@Override
 	public void run() {
 		while(_isRunning) {
+			ArrayList<IMessageListener> currentListeners = null;
+			Message msg = null;
 			try {
-				Message msg = MessageQueue.take();
-				ArrayList<IMessageListener> currentListeners = MessageListeners.get(msg.type);
+				msg = MessageQueue.take();
+				currentListeners = MessageListeners.get(msg.type);
 				if(currentListeners == null || currentListeners.isEmpty()) {
 					MessageQueue.add(msg);
 				}
@@ -44,10 +46,13 @@ public class MessageParser implements Runnable {
 					} 
 				}
 			} catch (NullPointerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//Little Hack Bugfix for GetInfo calls
+				if(msg.type == MessageType.Cargo || msg.type == MessageType.Harbour)
+					MessageListeners.remove(currentListeners.get(0));
+				else {
+					e.printStackTrace();
+				}
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
