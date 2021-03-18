@@ -22,7 +22,7 @@ public class CompanyView extends BasicGraphicalView {
 
 	public BlockingQueue<String> MessageQueue;
 	public TextArea output;
-	public TextField input;
+	public TextField inputField;
 	public Button send;
 	
 	public CompanyView() {
@@ -46,17 +46,17 @@ public class CompanyView extends BasicGraphicalView {
 		output.setRows(1);
 		output.setColumns(20);
 		
-		input = new TextField(80);
+		inputField = new TextField(80);
 		 
 		CompanyListener companyListener = new CompanyListener();
 		send.addActionListener(companyListener);
-		input.addActionListener(companyListener);
+		inputField.addActionListener(companyListener);
 		
 		
 		window.addWindowListener(companyListener);
 		
 		window.add(output, BorderLayout.CENTER);
-		inputPanel.add(input);
+		inputPanel.add(inputField);
 		inputPanel.add(send);
 		window.add(inputPanel, BorderLayout.SOUTH);
 		
@@ -78,8 +78,8 @@ public class CompanyView extends BasicGraphicalView {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			MessageQueue.add(input.getText());
-			input.setText(null);
+			MessageQueue.add(inputField.getText());
+			inputField.setText(null);
 		}
 
 		@Override

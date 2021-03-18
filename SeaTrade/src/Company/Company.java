@@ -2,6 +2,7 @@ package Company;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -75,7 +76,7 @@ public class Company implements Runnable {
 		}
 	}
 	
-	public synchronized void registerCompany(String companyName, int seaTradeServerPort, String seaTradeEndpoint, int companyServerPort) {
+	public synchronized boolean registerCompany(String companyName, int seaTradeServerPort, String seaTradeEndpoint, int companyServerPort) {
 		this.companyName = companyName;
 		this.seaTradeServerPort = seaTradeServerPort;
 		this.companyServerPort = companyServerPort;
@@ -84,9 +85,11 @@ public class Company implements Runnable {
 			seaTradeListener = new SeaTradeListener(seaTradeServerPort, seaTradeEndpoint, this);
 			seaTradeListener.start();
 			seaTradeOut.println("register:" + companyName);
-		} catch (IllegalStateException e) {
-			seaTradeListener.interrupt();
+		} catch (ConnectException e) {
+			view.OutputData("Error: Conncetion refused");
+			return false;
 		}
+		return true;
 	}
 	
 	public synchronized void getCargoInfo() {

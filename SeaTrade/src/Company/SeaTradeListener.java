@@ -2,6 +2,7 @@ package Company;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 
 import Shared.ListenerThread;
 import Shared.Message.Message;
@@ -11,10 +12,10 @@ public class SeaTradeListener extends ListenerThread {
 
 	private Company _company;
 	
-	public SeaTradeListener(int port, String socketName, Company company) {
+	public SeaTradeListener(int port, String socketName, Company company) throws ConnectException {
 		super(port, socketName);
-		_company = company;
 		try {
+			_company = company;
 			_company.seaTradeOut = new PrintWriter(socket.getOutputStream(), true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
