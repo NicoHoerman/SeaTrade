@@ -60,6 +60,7 @@ public class SeaTradeMessageListener extends Thread implements IMessageListener 
 		case Reached:
 			if(message.content.size() == 1) {
 				_ship.view.OutputData("Reached destination " + _ship.getDestination());
+				_ship.setBusy(false);
 			}
 			break;
 		case Loaded:

@@ -44,7 +44,11 @@ public class CompanyMessageListener extends Thread implements IMessageListener {
 	public void ListenTo(Message message) {
 		switch (message.type) {
 		case Instruct:
-			_ship.moveto(message.content.get(0));
+			if(!_ship.isBusy()) {
+				_ship.setBusy(true);
+				_ship.moveto(message.content.get(0));
+			}
+			//New response to company isBusy
 			break;
 		case Updated:
 			//Nothing Could add Output

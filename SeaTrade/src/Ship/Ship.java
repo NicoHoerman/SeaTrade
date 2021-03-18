@@ -19,7 +19,10 @@ public class Ship {
 	private boolean hasCargo; 
 	private String company;
 	private String destination;
+	private boolean isBusy;
 	
+	
+
 	private int seaTradePort;//Port of the SeaTrade Server
 	private String seaTradeEndpoint;
 	private int companyPort;//Port of the Company Server
@@ -181,4 +184,13 @@ public class Ship {
 	private void setCargo(Cargo cargo) {
 		this.cargo = cargo;
 	}
+	
+	public boolean isBusy() {
+		return isBusy;
+	}
+
+	public void setBusy(boolean isBusy) {
+		this.isBusy = isBusy;
+	}
+	
 }
