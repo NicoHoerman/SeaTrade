@@ -19,4 +19,9 @@ public class Harbour {
 	public Position get_postion() {
 		return _postion;
 	}
+	
+	@Override
+	public String toString() {
+		return "Name: " + _name + "|" + _postion.toString(); 
+	}
 }

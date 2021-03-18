@@ -1,7 +1,10 @@
 package Company.MessageListener;
 
+import java.util.List;
+
 import Company.Company;
 import Company.ShipSession;
+import Shared.Harbour;
 import Shared.Message.IMessageListener;
 import Shared.Message.Message;
 import Shared.Message.MessageType;
@@ -56,7 +59,8 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 			if(message.content.size() == 1) {
 				_shipSession.sessionName = message.content.get(0);
 				_company.shipsSessions.add(_shipSession);
-				String startHarbour = _company.harbours.isEmpty() ? "halifax" : _company.harbours.get(0).get_name() ;
+				List<Harbour> harbours = _company.getHarbours();
+				String startHarbour = harbours.isEmpty() ? "halifax" : harbours.get(0).get_name() ;
 				_shipSession._shipOut.println("recruited:COMPANY|"+_company.getCompanyName()+"|"+_company.getDeposit()+":"+startHarbour);
 				_shipSession.isRegistered = true;
 			}

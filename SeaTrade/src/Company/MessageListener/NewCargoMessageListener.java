@@ -38,7 +38,7 @@ public class NewCargoMessageListener extends Thread implements IMessageListener{
 		
 		if(message.content.size() == 1) {
 			Cargo c = Cargo.parse(message.content.get(0));
-			_company.cargos.add(c);
+			_company.addCargos(c);
 		}	
 	}
 	

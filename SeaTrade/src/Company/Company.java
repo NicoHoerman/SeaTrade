@@ -8,6 +8,7 @@ import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import Company.MessageListener.NewCargoMessageListener;
 import Shared.Harbour;
@@ -34,8 +35,8 @@ public class Company implements Runnable {
 	private NewCargoMessageListener newCargoML; 
 	private Thread companyServer; 
 	
-	public List<Harbour> harbours;
-	public List<Cargo> cargos;
+	private List<Harbour> harbours;
+	private List<Cargo> cargos;
 	
 	public IView view;
 	
@@ -43,6 +44,8 @@ public class Company implements Runnable {
 		
 		shipsSessions = Collections.synchronizedList(new ArrayList<ShipSession>());
 		harbours = new ArrayList<Harbour>();
+		cargos = new ArrayList<Cargo>();
+		
 		this.view = view; 
 		view.OutputData("company app created");
 		
@@ -179,5 +182,40 @@ public class Company implements Runnable {
 	
 	public void startCompanyServer() {
 		companyServer.start();	
+	}
+	
+	public synchronized void addCargos(Cargo c) {
+		boolean isInCargos = cargos.stream()
+				.anyMatch(x -> x.getId() ==(c.getId()));
+		
+		if(!isInCargos)
+			cargos.add(c);
+	}
+	public List<Cargo> getCargos(){
+		return cargos;
+	}
+	
+	public synchronized void addHarbours(Harbour h) {
+		boolean isInHarbours = harbours.stream()
+				.anyMatch(x -> x.get_name().equals(h.get_name()));
+		
+		if(!isInHarbours)
+			harbours.add(h);
+	}
+	
+	public List<Harbour> getHarbours(){
+		return harbours;
+	}
+	
+	public void outputHarbours() {
+		for (Harbour harbour : harbours) {
+			view.OutputData(harbour.toString());
+		}
+	}
+	
+	public void outputCargos() {
+		for (Cargo cargo : cargos) {
+			view.OutputData(cargo.toString());
+		}
 	}
 }

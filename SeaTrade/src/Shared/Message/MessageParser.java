@@ -43,6 +43,9 @@ public class MessageParser implements Runnable {
 						currentListeners.get(i).ListenTo(msg);						
 					} 
 				}
+			} catch (NullPointerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

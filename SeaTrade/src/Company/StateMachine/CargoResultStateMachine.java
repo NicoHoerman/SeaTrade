@@ -35,23 +35,23 @@ public class CargoResultStateMachine implements IStateMachine, IMessageListener 
 	public void ListenTo(Message message) {
 		switch (message.type) {
 		case Cargo:
-			if(message.content.size() == 2) {
-				_console.view.OutputData("Name: " + message.content.get(1) + " " + message.content.get(0));
-				String obj = message.content.get(0);
-				String[] cargo = obj.split("[|]");
-				Cargo c = new Cargo(Integer.parseInt(cargo[1]), cargo[2], cargo[3], Integer.parseInt(cargo[4]));
-				_console.company.cargos.add(c);
+			if(message.content.size() == 1) {
+				Cargo c = Cargo.parse(message.content.get(0));
+				_console.company.addCargos(c);
 			}
 			break;
 		case EndInfo:
 			_console.company.messageParser.Unregister(this, MessageType.Cargo);
 			_console.company.messageParser.Unregister(this, MessageType.EndInfo);
+			_console.company.outputCargos();
 			_isRunning = false;
 			break;
 		default:
 			_console.view.OutputData("Invalid cargo");
+			_console.company.messageParser.Unregister(this, MessageType.Cargo);
+			_console.company.messageParser.Unregister(this, MessageType.EndInfo);
+			_isRunning = false;
 			break;
 		}
 	}
-
 }

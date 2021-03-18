@@ -97,7 +97,6 @@ public class CompanyView extends BasicGraphicalView {
 		@Override
 		public void windowClosing(WindowEvent e) {
 			MessageQueue.add("exit:");
-			shutdown();
 		}
 
 		@Override

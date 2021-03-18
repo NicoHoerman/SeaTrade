@@ -38,5 +38,4 @@ public class CargoRequestStateMachine implements IStateMachine, IMessageListener
 		_console.company.messageParser.Unregister(this, MessageType.GetCargos);
 		_isRunning = false;
 	}
-
 }
