@@ -20,7 +20,6 @@ public class CompanyReadyStateMachine implements IStateMachine  {
 		_isRunning = true;
 		_console = (CompanyConsole) console;
 		_parser = _console.company.messageParser;
-		
 	}
 	
 	@Override
@@ -42,6 +41,9 @@ public class CompanyReadyStateMachine implements IStateMachine  {
 	
 	private synchronized void processInput(String input) throws Exception {
 		Message msg = _parser.parseInput(input);
+		if(msg.type == MessageType.Exit)
+			msg.type = MessageType.InputExit;
+		
 		if(msg.type == MessageType.Unknown)
 			throw new Exception("Unknown command: " + input);
 		
@@ -63,7 +65,7 @@ public class CompanyReadyStateMachine implements IStateMachine  {
 		case Instruct: 
 			_console.stateController.ChangeState(State.InstructRequest);
 			break;
-		case Exit:
+		case InputExit:
 			_console.stateController.ChangeState(State.Exit);
 			break;
 		default:

@@ -11,6 +11,7 @@ public enum MessageType {
 	Cargo,
 	NewCargo,
 	Exit,
+	InputExit,
 	EndInfo,
 	Instruct,
 	Accepted,

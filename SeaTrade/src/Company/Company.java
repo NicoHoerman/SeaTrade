@@ -161,7 +161,7 @@ public class Company implements Runnable {
 		}
 		
 		for (ShipSession ship : shipsSessions) {
-			ship._shipOut.println("exit:");
+			ship.shipOut.println("exit:");
 		}
 		if(seaTradeOut != null)
 			seaTradeOut.println("exit:");
@@ -176,7 +176,7 @@ public class Company implements Runnable {
 
 	public synchronized void instruct(String harbour, int shipIndex) {
 		ShipSession ship = shipsSessions.get(shipIndex);
-		ship._shipOut.println("instruct:" + harbour);
+		ship.shipOut.println("instruct:" + harbour);
 	}
 	
 	public void startCargoListener() {

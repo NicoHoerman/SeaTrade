@@ -43,6 +43,9 @@ public class ShipReadyStateMachine implements IStateMachine {
 		
 	private synchronized void processInput(String input) throws Exception {
 		Message msg = _parser.parseInput(input);
+		if(msg.type == MessageType.Exit)
+			msg.type = MessageType.InputExit;
+		
 		if(msg.type == MessageType.Unknown)
 			throw new Exception("Unknown command: " + input);
 		
@@ -58,7 +61,7 @@ public class ShipReadyStateMachine implements IStateMachine {
 		case UnloadCargo:
 			_console.stateController.ChangeState(State.UnloadCargo);
 			break;
-		case Exit:
+		case InputExit:
 			_console.stateController.ChangeState(State.Exit);
 			break;
 		default:

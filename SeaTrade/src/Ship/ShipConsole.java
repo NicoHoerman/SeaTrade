@@ -12,7 +12,7 @@ import View.IView;
 //Startup of the ship app
 public class ShipConsole  extends Console{
 	
-	private boolean _isRunning;
+	public static boolean isRunning;
 	private IStateMachine _stateMachine;
 	
 	public Ship ship;
@@ -20,7 +20,7 @@ public class ShipConsole  extends Console{
 	public IView view; 
 
 	public ShipConsole() {
-		_isRunning = true;
+		isRunning = true;
 		view = new ShipView();
 		view.OutputData("Ship console started...");
 		ship = new Ship(view);
@@ -36,7 +36,7 @@ public class ShipConsole  extends Console{
 	
 	public static void main(String[] args) {
 		ShipConsole console = new ShipConsole(); 
-		while(console._isRunning) {
+		while(isRunning()) {
 			try {
 				console._stateMachine.Run();
 			} catch (Exception e) {
@@ -46,12 +46,15 @@ public class ShipConsole  extends Console{
 		}
 	}
 	
-	public void setIsRunning(boolean _isRunning) {
-		this._isRunning = _isRunning;
+	public static void shutdown() {
+		ShipConsole.isRunning = false;
 	}
-
+	
+	public static boolean isRunning() {
+		return isRunning;
+	}
+	
 	public void setStateMachine(IStateMachine stateMachine) {
 		_stateMachine = stateMachine;
 	}
-
 }

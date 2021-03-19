@@ -5,6 +5,7 @@ import Shared.Message.Message;
 import Shared.Message.MessageType;
 import Ship.CompanyListener;
 import Ship.Ship;
+import Ship.ShipConsole;
 
 //Processes Company related message from the message queue
 public class CompanyMessageListener extends Thread implements IMessageListener {
@@ -21,6 +22,7 @@ public class CompanyMessageListener extends Thread implements IMessageListener {
 		_ship.messageParser.Register(this, MessageType.Cleared);
 		_ship.messageParser.Register(this, MessageType.Exit);
 		_ship.messageParser.Register(this, MessageType.Error);
+		_ship.messageParser.Register(this, MessageType.Unknown);
 	}
 	
 	@Override
@@ -38,6 +40,7 @@ public class CompanyMessageListener extends Thread implements IMessageListener {
 		_ship.messageParser.Unregister(this, MessageType.Cleared);
 		_ship.messageParser.Unregister(this, MessageType.Exit);
 		_ship.messageParser.Unregister(this, MessageType.Error);
+		_ship.messageParser.Unregister(this, MessageType.Unknown);
 	}
 	
 	@Override
@@ -58,12 +61,14 @@ public class CompanyMessageListener extends Thread implements IMessageListener {
 			break;
 		case Exit:
 			_ship.exit();
+			ShipConsole.shutdown();
 			break;
 		case Error:
 			for (String content : message.content) {				
 				_ship.view.OutputData(content + "\n");
 			}
 			break;
+		case Unknown:
 		default:
 			break;
 		}	

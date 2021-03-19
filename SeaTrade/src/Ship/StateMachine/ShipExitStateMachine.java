@@ -14,7 +14,7 @@ public class ShipExitStateMachine implements IStateMachine,IMessageListener {
 	
 	public ShipExitStateMachine(Console console) {
 		_console = (ShipConsole)console;
-		_console.ship.messageParser.Register(this, MessageType.Exit);
+		_console.ship.messageParser.Register(this, MessageType.InputExit);
 		_isRunning = true;
 	}
 	
@@ -29,7 +29,7 @@ public class ShipExitStateMachine implements IStateMachine,IMessageListener {
 	public void ListenTo(Message message) {
 		_console.ship.exit();
 		_isRunning = false;
-		_console.setIsRunning(false);
+		ShipConsole.shutdown();
 		_console.view.shutdown();
 	}
 }

@@ -14,7 +14,7 @@ public class ExitStateMachine implements IStateMachine, IMessageListener {
 	
 	public ExitStateMachine(Console console) {
 		_console = (CompanyConsole)console;
-		_console.company.messageParser.Register(this, MessageType.Exit);
+		_console.company.messageParser.Register(this, MessageType.InputExit);
 		_isRunning = true;
 	}
 	

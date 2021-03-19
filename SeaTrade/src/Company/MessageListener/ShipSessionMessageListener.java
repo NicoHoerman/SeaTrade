@@ -19,12 +19,12 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 		super();
 		_company = company; 
 		_shipSession = shipSession;
-		_company.messageParser.Register(this, MessageType.RegisterShip);
-		_company.messageParser.Register(this, MessageType.Accepted);
-		_company.messageParser.Register(this, MessageType.Clear);
-		_company.messageParser.Register(this, MessageType.Update);
-		_company.messageParser.Register(this, MessageType.Error);
-		_company.messageParser.Register(this, MessageType.Exit);
+		_shipSession.shipMessageParser.Register(this, MessageType.RegisterShip);
+		_shipSession.shipMessageParser.Register(this, MessageType.Accepted);
+		_shipSession.shipMessageParser.Register(this, MessageType.Clear);
+		_shipSession.shipMessageParser.Register(this, MessageType.Update);
+		_shipSession.shipMessageParser.Register(this, MessageType.Error);
+		_shipSession.shipMessageParser.Register(this, MessageType.Exit);
 	}
 	
 	@Override
@@ -37,12 +37,12 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 				e.printStackTrace();
 			}
 		}
-		_company.messageParser.Unregister(this, MessageType.RegisterShip);
-		_company.messageParser.Unregister(this, MessageType.Accepted);
-		_company.messageParser.Unregister(this, MessageType.Clear);
-		_company.messageParser.Unregister(this, MessageType.Update);
-		_company.messageParser.Unregister(this, MessageType.Error);
-		_company.messageParser.Unregister(this, MessageType.Exit);
+		_shipSession.shipMessageParser.Unregister(this, MessageType.RegisterShip);
+		_shipSession.shipMessageParser.Unregister(this, MessageType.Accepted);
+		_shipSession.shipMessageParser.Unregister(this, MessageType.Clear);
+		_shipSession.shipMessageParser.Unregister(this, MessageType.Update);
+		_shipSession.shipMessageParser.Unregister(this, MessageType.Error);
+		_shipSession.shipMessageParser.Unregister(this, MessageType.Exit);
 	}
 	
 	@Override
@@ -50,7 +50,7 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 		if((_shipSession.isRegistered == false && message.type != MessageType.RegisterShip) || message.type== MessageType.Error) {
 			_company.shipsSessions.remove(_shipSession);
 			_shipSession.shutdown();
-			_company.view.OutputData("Removed ship " + _shipSession.getName());
+			_company.view.OutputData("Removed ship " + _shipSession.sessionName);
 			return;
 		}
 		
@@ -61,7 +61,7 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 				_company.shipsSessions.add(_shipSession);
 				List<Harbour> harbours = _company.getHarbours();
 				String startHarbour = harbours.isEmpty() ? "halifax" : harbours.get(0).get_name() ;
-				_shipSession._shipOut.println("recruited:COMPANY|"+_company.getCompanyName()+"|"+_company.getDeposit()+":"+startHarbour);
+				_shipSession.shipOut.println("recruited:COMPANY|"+_company.getCompanyName()+"|"+_company.getDeposit()+":"+startHarbour);
 				_shipSession.isRegistered = true;
 			}
 			break;
@@ -73,10 +73,10 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 				try {
 					_company.addProfit(Integer.parseInt(message.content.get(0)));
 				} catch (NumberFormatException e) {
-					_shipSession._shipOut.println("error:clear:Couldn't parse profit");
+					_shipSession.shipOut.println("error:clear:Couldn't parse profit");
 					e.printStackTrace();
 				}
-				_shipSession._shipOut.println("cleared:OK");
+				_shipSession.shipOut.println("cleared:OK");
 			}
 			break;
 		case Update:
@@ -84,16 +84,21 @@ public class ShipSessionMessageListener extends Thread implements IMessageListen
 				try {
 					_company.reduceDeposit(Integer.parseInt(message.content.get(0)));
 				} catch (NumberFormatException e) {
-					_shipSession._shipOut.println("error:update:Couldn't parse cost");
+
 					e.printStackTrace();
 				}
-				_shipSession._shipOut.println("update:OK");
+				_shipSession.shipOut.println("updated:OK");
 			break;
 			}
 		case Error:
 			for (String content : message.content) {				
 				_company.view.OutputData(content + "\n");
 			}
+		case Exit:
+			_company.shipsSessions.remove(_shipSession);
+			_shipSession.shutdown();
+			_company.view.OutputData("Removed ship " + _shipSession.sessionName);
+			return;
 		default:
 			break;
 		}	

@@ -21,8 +21,6 @@ public class Ship {
 	private String destination;
 	private boolean isBusy;
 	
-	
-
 	private int seaTradePort;//Port of the SeaTrade Server
 	private String seaTradeEndpoint;
 	private int companyPort;//Port of the Company Server
@@ -90,6 +88,7 @@ public class Ship {
 			companyListener.shutdown();
 		
 		messageParser.shutdown();
+		view.shutdown();
 	}
 
 	public synchronized void clear(String profit) {

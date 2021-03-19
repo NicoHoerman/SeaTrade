@@ -33,6 +33,9 @@ public class CompanyListener extends ListenerThread {
 		while(isRunning){
 			try {
 			response = in.readLine();
+			if(response == null)
+				break;
+			
 			Message msg = ship.messageParser.parseResponse(response);
 			ship.messageParser.MessageQueue.add(msg);
 			} catch (IOException e) {
