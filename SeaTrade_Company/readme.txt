@@ -2,8 +2,11 @@ Company crashes sometime, which causes the exit to not work anymore.
 Solution kill via taskmanager
 
 GetCargo and GetHarbour currently only work if connected to a SeaTradeServer
+Sometimes harbours and cargos does not return all of them.
 
 Multiple Ships work, but it is not fully tested.
+
+Instruct with a typo in the command will destroy the ship client
 
 Commands
 Register	register:CompanyName:SeaTradeServerPort:SeaTradeServerEndpoint:CompanyServerPort
